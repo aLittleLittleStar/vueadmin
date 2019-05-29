@@ -1,0 +1,85 @@
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+
+.el-container
+	display: flex
+	flex-direction: column
+	.el-header
+		.el-menu
+			display: flex
+			overflow-x: auto
+			flex-direction: row-reverse;
+	.el-main
+		padding: 1.5rem
+
+.item
+	display: flex
+	flex-direction: column
+	border-bottom: 1px solid #eee
+	padding: 1rem 0.4rem
+	border-radius: 0.2rem
+	&:hover
+		background: #e5e9f2
+	.item-top
+		display: flex
+		color: #b2bac2
+		font-size: 0.9rem
+		.item-top-say
+			margin-right: 0.8rem
+			color: #b71ed7
+		.item-top-user
+			cursor: pointer
+			&:hover
+				color: #6fbd69
+		.item-top-time
+			margin: 0 0.8rem
+		.item-top-type
+			&:hover
+				color: #f7b87b
+	.item-center
+		cursor: pointer
+		display: flex
+		flex-direction: column
+		margin: 0.4rem 0
+		.item-center-title
+			font-size: 1.2rem
+			margin-bottom: 0.4rem
+			font-weight: 600
+			letter-spacing: 0.1rem
+			&:hover
+				text-decoration: underline
+		.item-center-content
+			font-size: 1rem
+			letter-spacing: 0.08rem
+	.item-bottom
+		display: flex
+		color: #b2bac2
+		font-size: 0.9rem
+		.item-bottom-like
+			cursor: pointer
+			margin-right: 0.8rem
+		.item-bottom-collection
+			cursor: pointer
+			margin-right: 0.8rem
+		.item-bottom-look
+			cursor: pointer
+			
+
+.item-center a,
+.item-center a:hover{
+	color: #ef8b80;
+	text-decoration: none;
+}
+
+.item-bottom a,
+.item-bottom a:hover{
+	display: inline-flex;
+	text-decoration: none;
+	font-weight: 600;
+	color: #6464de;
+}
