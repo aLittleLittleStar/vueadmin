@@ -43,21 +43,26 @@
 ```bash
 ? Please pick a preset: Manually select features
 
-? Check the features needed for your project: Babel, Router, Vuex, CSS Pre-processors, Linter
+? Check the features needed for your project:
+ Babel, Router, Vuex, CSS Pre-processors, Linter
 
-? Use history mode for router? (Requires proper server setup for index fallback in production) No
+? Use history mode for router? 
+(Requires proper server setup for index fallback in production) No
 # 是否使用history模式 否
 
-? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Stylus
+? Pick a CSS pre-processor 
+(PostCSS, Autoprefixer and CSS Modules are supported by default): Stylus
 # css预编译语言选择 stylus
 
 ? Pick a linter / formatter config: Basic
 # 语法检查规范类型选择： 基础
 
-? Pick additional lint features: (Press <space> to select, <a> to toggle all, <i> to invert selection)Lint on save
+? Pick additional lint features: 
+(Press <space> to select, <a> to toggle all, <i> to invert selection)Lint on save
 # 语法检查： 保存时检查
 
-? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In package.json
+? Where do you prefer placing config for Babel, 
+PostCSS, ESLint, etc.? In package.json
 # 自定义配置放置位置 package.json
 
 ? Save this as a preset for future projects? No
@@ -81,6 +86,8 @@
     否【提示用户不存在】 
 ```
 
+![登录](src/assets/say/login.png)
+
 #### 注册
 ```bash
 昵称： 长度在1-8个字符
@@ -95,12 +102,12 @@
     如果被占用： 提示用户名已被占用
     如果未占用： 进行数据的插入，提示注册成功，并跳转至登录页面
 ```
-
+![注册](src/assets/say/register.png)
 
 ### 4.文章列表的渲染
 
 ### 5.文章详情的渲染
-
+![文章详情页面待完成](src/assets/say/文章详情页面待完成.png)
 ### 6.点赞、收藏
 ```bash
 
@@ -117,6 +124,7 @@
 文章内容
 长度的限制
 ```
+![发布文章](src/assets/say/publish.png)
 
 ### 9.排行榜页面
 
@@ -125,6 +133,5 @@
 ### 11.个人主页
 
 ### 12.个人中心
-
 
 
