@@ -111,11 +111,7 @@ export default {
 					window.document.cookie = "username" + '=' + name + ";path=/;expires=" + 2;
 					setInterval(function() {
 						that.$router.push({
-							path: '/',
-							query:{
-								// 防止从外部进来登录
-								redirect: location.hostname
-							}
+							path: '/'
 						})
 					}, 2000)
 				} else {

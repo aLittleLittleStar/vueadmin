@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-05-29 16:20:42
+* @Last Modified time: 2019-05-30 21:23:31
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -72,11 +72,13 @@ module.exports = {
 			})
 		})
 	},
-	// 查找文章数据
+	// 查找文章数据 : 分页查找
 	articleInfo(req, res, next) {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.article.search;
-			connection.query(sql, (err, result) => {
+			let params = req.body;
+			console.log("params:", params);
+			connection.query(sql, (params.page-1)*10, (err, result) => {
 				if (err) throw err;
 				// 查找所有文章数据
 				res.json(result)
@@ -87,6 +89,19 @@ module.exports = {
 	articleInfoFir(req, res, next) {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.article.searchFir;
+			let params = req.body;
+			connection.query(sql, (params.page-1)*10,(err, result) => {
+				if (err) throw err;
+				// 查找所有文章数据
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
+	// 获取文章的总条数
+	getArticleLen(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.article.searchLength;
 			connection.query(sql, (err, result) => {
 				if (err) throw err;
 				// 查找所有文章数据
@@ -95,6 +110,7 @@ module.exports = {
 			})
 		})
 	},
+
 	articleAdd(req, res, next) {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.article.add;
@@ -258,5 +274,39 @@ module.exports = {
 			})
 		})
 	},
+
+	/*
+	 * 用户发布资料
+	*/
+	addData(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.pushdata.addData;
+			let params = req.body;
+			console.log("params:", params);
+			connection.query(sql, [params.dataname, params.dataicon, params.datawebsite, params.dataintroduce, params.datatype, params.datatags, params.datapushname],  (err, result) => {
+				if (err) {
+					res.send({status:  -1 });
+					console.log("err:", err);
+				}
+				console.log("result:", result);
+				res.send({status:  200 });
+			})
+		})
+	},
+	searchData(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.pushdata.searchData;
+			connection.query(sql, (err, result) => {
+				if (err) {
+					res.send({status:  -1 });
+					console.log("err:", err);
+				}
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
+
+
 
 }

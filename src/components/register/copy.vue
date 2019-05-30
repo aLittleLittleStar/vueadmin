@@ -1,33 +1,39 @@
 <template>
   <el-container>
-<el-upload
-  action="https://jsonplaceholder.typicode.com/posts/"
-  list-type="picture-card"
-  :on-preview="handlePictureCardPreview"
-  :on-remove="handleRemove">
-  <i class="el-icon-plus"></i>
-</el-upload>
-<el-dialog :visible.sync="dialogVisible">
-  <img width="100%" :src="dialogImageUrl" alt="">
-</el-dialog>
+    
+
+
+  <div class="block">
+    <span class="demonstration">完整功能</span>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage4"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400">
+    </el-pagination>
+  </div>
 </el-container>
 </template>
 <script>
   export default {
+    methods: {
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      }
+    },
     data() {
       return {
-        dialogImageUrl: '',
-        dialogVisible: false
+        currentPage1: 5,
+        currentPage2: 5,
+        currentPage3: 5,
+        currentPage4: 4
       };
-    },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      }
     }
   }
 </script>

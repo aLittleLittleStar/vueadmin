@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-05-29 16:20:25
+* @Last Modified time: 2019-05-30 21:23:03
 */
 // sql语句
 let sqlMap = {
@@ -15,11 +15,13 @@ let sqlMap = {
 	},
 	article: {
 		// 按照时间先后顺序查询: DESC倒序
-		search: 'select * from article order by articletime DESC',
+		search: 'select * from article order by articletime DESC limit ?, 10',
+		// 查询数据的总长度
+		searchLength: 'select count(*) from article',
 		// 查询一篇文章
 		searchOne: 'select * from article as a inner join userInfo as b on a.articleavatar = b.name where a.articleid = ?',
 		// 按照浏览量进行查找
-		searchFir: 'select * from article order by articlelook DESC',
+		searchFir: 'select * from article order by articlelook DESC limit ?, 10',
 		// 添加文章
 		add: 'insert into article(articleavatar, articletitle, articlecontent, articlebrief, ttype) values (? , ?, ?, ?, ?)',
 		// 更新文章点赞数量：
@@ -51,6 +53,16 @@ let sqlMap = {
 		// 更新用户点赞状态
 		upsearchColl: 'update usercollection set collstatus = ? where articleid = ? and username = ?',
 	},
+	/*
+	 * 学习资料
+	*/
+	pushdata: {
+		// 插入资料
+		addData: 'insert into learndata(dataname, dataicon, datawebsite, dataintroduce, datatype, datatags, datapushname) values (?, ?, ?, ?, ?, ?, ?)',
+		// 删除资料
+		// 查找资料
+		searchData: 'select * from learndata order by datacollection DESC'
+	}
 }
 
 module.exports = sqlMap;

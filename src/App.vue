@@ -45,4 +45,12 @@ html
   flex-direction: column
   .el-form-item__label
     text-align: left
+
+
+
+// 修改发布资源页面的样式
+.el-form-item__content .el-select.selectTag .el-input {
+  width: 100%;
+  min-width: 20rem;
+}
 </style>

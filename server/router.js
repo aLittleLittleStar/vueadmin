@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-05-29 16:21:37
+* @Last Modified time: 2019-05-30 20:18:40
 */
 const express = require('express');
 const router = express.Router();
@@ -25,12 +25,17 @@ router.post('/register', (req, res, next) => {
 /*
 	* 文章
  */
+
+// 查找文章的总条数
+router.get('/getArticleLen', (req, res, next) => {
+  api.getArticleLen(req, res, next);
+});
 // 查询所有文章信息:默认按照时间先后顺序
-router.get('/articleSearch', (req, res, next) => {
+router.post('/articleSearch', (req, res, next) => {
 	api.articleInfo(req, res, next);
 });
 // 最热：按照点赞量依次排序
-router.get('/articleSearchFir', (req, res, next) => {
+router.post('/articleSearchFir', (req, res, next) => {
 	api.articleInfoFir(req, res, next);
 });
 // 用户发布文章
@@ -87,8 +92,16 @@ router.post('/addUsercoll', (req, res, next) => {
 	api.addUserColl(req, res, next);
 });
 
-
-
+/*
+ * 学习资料页面
+ */
+// 插入数据
+router.post('/addData', (req, res, next) => {
+  api.addData(req, res, next);
+});
+router.get('/searchData', (req, res, next) => {
+  api.searchData(req, res, next);
+});
 
 
 /*

@@ -1,32 +1,47 @@
 <template>
 	<el-menu
-		:default-active="activeIndex"
+		:default-active="$route.path"
 		mode="horizontal"
-		@select="handleSelect">
+		@select="handleSelect"
+		router>
 		<el-submenu
-			index="6">
+			v-if="nowUserName"
+			index="/user">
 			<template slot="title">我的</template>
-			<el-menu-item index="6-1">个人中心</el-menu-item>
-			<el-menu-item index="6-1">个人主页</el-menu-item>
+			<el-menu-item 
+				index="/user-page">
+				个人中心
+			</el-menu-item>
+			<el-menu-item 
+				index="/user-home">
+				个人主页
+			</el-menu-item>
 		</el-submenu>
 		<el-menu-item
-			index="5">
+			v-if="nowUserName"
+			index="/unlogin">
 			退出
 		</el-menu-item>
 		<el-menu-item
-			index="4">
+			v-if="!nowUserName"
+			index="/register">
 			注册
 		</el-menu-item>
 		<el-menu-item
-			index="3">
+			v-if="!nowUserName"
+			index="/login">
 			登录
 		</el-menu-item>
 		<el-menu-item
-			index="2">
+			index="/datalist">
+			学习资源
+		</el-menu-item>
+		<el-menu-item
+			index="/talk">
 			讨论
 		</el-menu-item>
 		<el-menu-item
-			index="1">
+			index="/">
 			首页
 		</el-menu-item>
 	</el-menu>
@@ -36,12 +51,22 @@
 	export default {
 		data() {
 			return {
-				activeIndex: '1'
+				activeIndex: '/',
+				nowUserName: ''
 			}
+		},
+		mounted() {
+			this.getCookie();
 		},
 		methods: {
 			handleSelect(key, keyPath) {
 				console.log(key, keyPath);
+				this.$router.push(key);
+			},
+			getCookie: function() {
+				if (document.cookie.length > 0) {
+					this.nowUserName = document.cookie.slice(9);
+				}
 			}
 		}
 	}

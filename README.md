@@ -135,3 +135,22 @@ PostCSS, ESLint, etc.? In package.json
 ### 12.个人中心
 
 
+### 首页：分页功能的实现2019/5/30
+```bash
+基本思路：
+1、首先获取当前页面数据的总条数
+> select count(*) from article
+对数据进行处理： 求余数、上相取整
+> let num = res.data[0]['count(*)'];
+> let Remain = num % 10;
+> let Len = num / 10;
+> Len = Math.floor(Len);
+当除以10余数大于0时：页数的长度 为 Len+1
+设置当前页面为1、页面总长度为Len
+2、渲染页面时：第一次加载十条数据
+当点击上一页下一页时根据当前页码进行请求数据
+
+```
+
+
+
