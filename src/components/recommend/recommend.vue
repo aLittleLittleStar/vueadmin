@@ -33,6 +33,7 @@
 											</div>
 											<div class="item-center-content">
 												{{item.articlebrief}}
+												{{item.articlecontent}}
 											</div>
 										</router-link>
 									</div>
