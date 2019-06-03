@@ -152,5 +152,8 @@ PostCSS, ESLint, etc.? In package.json
 
 ```
 
-
+### 2019/6/3
+#### 添加搜索页面、搜索框事件
+> elementUI input 输入框键盘事件
+`@keyup.native.enter="searchList"`
 

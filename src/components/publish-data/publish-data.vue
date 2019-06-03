@@ -268,6 +268,9 @@ export default {
 							text-align: center
 							margin-top: 2rem
 
+.selectWeb
+	width: 3rem
+
 .el-form-item__content
 	.el-select.selectTag
 		width: 100%

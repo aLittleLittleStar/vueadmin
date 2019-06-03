@@ -13,11 +13,12 @@
 							<el-input 
 								v-model="form.name"
 								placeholder="以最快的速度获取想要的资源"
+								@keyup.native.enter="searchList"
 								clearable>
 								<el-button 
 									slot="append" 
 									icon="el-icon-search"
-									@click="searchList(form.name)">
+									@click="searchList">
 								</el-button>
 							</el-input>
 						</el-form-item>
@@ -112,9 +113,22 @@ export default {
 				}
 			})
 		},
-		searchList: function(value) {
-			
-		}
+		searchList: function() {
+			let value = this.form.name;
+			if (value === '') {
+				this.errOpen();
+				return;
+			}
+			this.$router.push({
+				path: '/searchInfo',
+				query: {
+					keywords: value
+				}
+			})
+		},
+		errOpen() {
+			this.$message.error('请先输入关键字进行搜索');
+		},
 	},
 	components: {
 		MHeader

@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-05-30 21:23:03
+* @Last Modified time: 2019-06-03 20:30:18
 */
 // sql语句
 let sqlMap = {
@@ -61,7 +61,9 @@ let sqlMap = {
 		addData: 'insert into learndata(dataname, dataicon, datawebsite, dataintroduce, datatype, datatags, datapushname) values (?, ?, ?, ?, ?, ?, ?)',
 		// 删除资料
 		// 查找资料
-		searchData: 'select * from learndata order by datacollection DESC'
+		searchData: 'select * from learndata order by datacollection DESC',
+		// 模糊匹配搜索结果
+		findKeyWords: 'select * from learndata where dataname like ? or dataintroduce like ?'
 	}
 }
 

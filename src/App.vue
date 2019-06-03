@@ -53,4 +53,7 @@ html
   width: 100%;
   min-width: 20rem;
 }
+.el-input .el-input-group__prepend {
+  width: 3rem;
+}
 </style>

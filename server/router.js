@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-05-30 20:18:40
+* @Last Modified time: 2019-06-03 20:16:00
 */
 const express = require('express');
 const router = express.Router();
@@ -99,9 +99,15 @@ router.post('/addUsercoll', (req, res, next) => {
 router.post('/addData', (req, res, next) => {
   api.addData(req, res, next);
 });
+// 获取所有的学习资源
 router.get('/searchData', (req, res, next) => {
   api.searchData(req, res, next);
 });
+// 搜索学习资料的结果
+router.post('/getSearchInfo', (req, res, next) => {
+  api.getSearchInfo(req, res, next);
+});
+
 
 
 /*

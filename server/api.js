@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-05-30 21:23:31
+* @Last Modified time: 2019-06-03 20:26:55
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -293,10 +293,28 @@ module.exports = {
 			})
 		})
 	},
+	// 获取所有的资料
 	searchData(req, res, next) {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.pushdata.searchData;
 			connection.query(sql, (err, result) => {
+				if (err) {
+					res.send({status:  -1 });
+					console.log("err:", err);
+				}
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
+	// 搜索学习资料关键词得到的结果
+	getSearchInfo(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.pushdata.findKeyWords;
+			let params = req.body;
+			let name = ["%" + params.name + "%"];
+			let content = ["%" + params.content + "%"];
+			connection.query(sql, [name, content], (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
 					console.log("err:", err);
