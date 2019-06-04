@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-03 20:30:18
+* @Last Modified time: 2019-06-04 18:32:27
 */
 // sql语句
 let sqlMap = {
@@ -11,7 +11,8 @@ let sqlMap = {
 		add: 'insert into userInfo(name, pass,sex, birth) values (?, ?, ?, ?)',
 		find: 'select * from userInfo where name = ?',
 		search: 'select * from userInfo',
-		login: 'select * from userInfo where name = ? and pass = ?'
+		login: 'select * from userInfo where name = ? and pass = ?',
+		getInfo: 'select name, birth, sex, avator from userInfo where name = ?'
 	},
 	article: {
 		// 按照时间先后顺序查询: DESC倒序
@@ -29,7 +30,9 @@ let sqlMap = {
 		// 更新文章的收藏数量
 		upColl: 'update article set articlecollection = ? where articleid = ?',
 		addArticleId: 'update userlikes set articleid = ? where userid = ?',
-		addColl: 'insert into article(articlecollection) where articleid = ?'
+		addColl: 'insert into article(articlecollection) where articleid = ?',
+		// 查询用户发布的文章
+		searchPublish: 'select * from article where articleavatar = ?'
 	},
 	/*
 	 用户点赞的判断

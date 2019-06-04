@@ -157,3 +157,48 @@ PostCSS, ESLint, etc.? In package.json
 > elementUI input 输入框键盘事件
 `@keyup.native.enter="searchList"`
 
+
+### 2019/6/4
+#### 添加loading动画
+添加页面： 
+  + 首页、学习资源、文章详情
+
+#### 新建个人主页页面：未完成数据交互
+
+
+
+## 项目目录结构
+```bash
++ vueadmin
+  + node_nodules # 基础依赖包
+  + public 
+  + server       # node连接mysql数据库服务
+    + api.js     # 函数操作
+    + db.js      # 数据库连接配置
+    + index.js   # 出口函数 运行 node index
+    + router.js  # express 路由
+    + sqMap.js   # SQL增删改查语句
+  + src
+    + assets     # 静态资源储存
+      + common   # 公共的资源
+        + fonts  # 字体
+        + image  # 图片
+        + js     # js
+        + stylus # css样式
+      + say      # README上面展示的图片
+    + components # 页面组件
+      + article  # 文章页面
+      + data-list   # 学习资料列表页面
+      + editor      # WangEditor富文本编译器组件
+      + header      # 头部组件
+      + login       # 登录页面
+      + publish     # 发布文章页面
+      + recommend   # 推荐页面【首页】
+      + register    # 注册页面
+      + search-info # 搜索学习资料结果页面
+    + App.vue    # 整个项目的入口文件，相当于包裹整个页面的最外层的div
+    + main.js    # 项目的主js,全局的使用的各种变量、js、插件 都在这里引入 、定义。
+    + router.js  # vueRouter路由
+    + store.js   # vuex
+
+```

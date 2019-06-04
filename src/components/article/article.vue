@@ -99,6 +99,9 @@ export default {
 		}
 	},
 	mounted() {
+		if (this.articleInfo =='') {
+			this.colesFullScreen()
+		}
 		this.getInfo(); //获取文章信息
 
 		this.getCookie();
@@ -406,6 +409,16 @@ export default {
 				type: 'warning'
 			})
 		},
+		// 加载loading 动画
+		colesFullScreen() {
+			const loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.4)'
+			})
+			loading.close();
+		}
 	}
 }
 </script>

@@ -56,4 +56,9 @@ html
 .el-input .el-input-group__prepend {
   width: 3rem;
 }
+
+// 修改个人主页的样式
+.avatar-bottom .el-tabs--card>.el-tabs__header {
+  margin: 0;
+}
 </style>

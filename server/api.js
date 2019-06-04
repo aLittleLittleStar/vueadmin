@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-03 20:26:55
+* @Last Modified time: 2019-06-04 18:36:23
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -41,7 +41,7 @@ module.exports = {
 			})
 		})
 	},
-	// 查找
+	// 查找用户名是否存在
 	findUserName(req, res, next) {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.user.find;
@@ -69,6 +69,20 @@ module.exports = {
 					return callback(err);
 				}
 				res.send({status:  200 });
+			})
+		})
+	},
+	// 查找用户信息
+	getUserInfo(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.user.getInfo;
+			let params = req.body;
+			console.log("params:", params);
+			connection.query(sql, params.name, (err, result) => {
+				if (err) throw err;
+				// 查找用户数据数据
+				res.json(result)
+				connection.release()
 			})
 		})
 	},
@@ -122,6 +136,19 @@ module.exports = {
 				}
 				// 插入文章数据
 				res.send({status:  200 });
+			})
+		})
+	},
+	// 查找用户发布的文章
+	findPublish(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.article.searchPublish;
+			let params = req.body;
+			connection.query(sql, params.name, (err, result) => {
+				if (err) throw err;
+				// 查找用户发布的所有文章数据
+				res.json(result)
+				connection.release()
 			})
 		})
 	},

@@ -18,8 +18,9 @@
 			</el-menu-item>
 		</el-submenu>
 		<el-menu-item
+			@click="unLogin"
 			v-if="nowUserName"
-			index="/unlogin">
+			index="/login">
 			退出
 		</el-menu-item>
 		<el-menu-item
@@ -61,12 +62,15 @@
 		methods: {
 			handleSelect(key, keyPath) {
 				console.log(key, keyPath);
-				this.$router.push(key);
+				// this.$router.push(keyPath);
 			},
 			getCookie: function() {
 				if (document.cookie.length > 0) {
 					this.nowUserName = document.cookie.slice(9);
 				}
+			},
+			unLogin() {
+				window.document.cookie = "username" + '=' + '' + ";path=/;expires=" + -1;
 			}
 		}
 	}

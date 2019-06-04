@@ -158,6 +158,10 @@ export default {
 		}
 	},
 	mounted: function() {
+		if (this.articleInfo == '') {
+			this.colesFullScreen()
+		}
+		this.colesFullScreen()
 		// 先获取页面的数据总长度【多少条】
 		this.getArticleLen();
 		// 再进行加载数据
@@ -236,6 +240,16 @@ export default {
 					console.log("error");
 				}
 			})
+		},
+		// 加载loading 动画
+		colesFullScreen() {
+			const loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.4)'
+			})
+			loading.close();
 		}
 	},
 	components: {

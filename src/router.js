@@ -13,8 +13,6 @@ import Publish from './components/publish/publish'
 import Article from './components/article/article'
 // 
 import Tools from './components/tools/tools'
-// 
-import LearnData from './components/learn-data/learn-data'
 // 学习资源页面
 import DataList from './components/data-list/data-list'
 // 发布学习资源页面
@@ -22,6 +20,9 @@ import PublishData from './components/publish-data/publish-data'
 // 搜索学习资源结果页面
 import SearchInfo from './components/search-info/search-info'
 import Copy from './components/register/copy'
+// 个人信息：个人主页&&个人中心
+import UserHome from './components/user-info/user-home'
+
 
 Vue.use(Router)
 
@@ -55,12 +56,12 @@ const routes = [
     component: PublishData
   },
   {
-    path: '/learndata',
-    component: LearnData
-  },
-  {
     path: '/searchInfo',
     component: SearchInfo
+  },
+  {
+    path: '/user-home',
+    component: UserHome
   },
   {
     path: '/copy',

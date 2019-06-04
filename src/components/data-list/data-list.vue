@@ -40,7 +40,14 @@
 										<el-card shadow="hover">
 											<div class="card-top">
 												<div class="card-title">
-													发布者：<span>{{item.datapushname}}</span>
+													发布者：
+													<router-link
+														:to="{
+															path: '/user-home/',
+															query: {name: item.datapushname}
+														}">
+														<span>{{item.datapushname}}</span>
+													</router-link>
 												</div>
 <!-- 												<div class="card-coll">
 													<span class="iconfont">&#xe620;</span>
@@ -100,6 +107,9 @@ export default {
 		}
 	},
 	mounted() {
+		if (this.dataList ==='') {
+			this.colesFullScreen()
+		}
 		this.getDataList();
 	},
 	methods: {
@@ -129,6 +139,16 @@ export default {
 		errOpen() {
 			this.$message.error('请先输入关键字进行搜索');
 		},
+		// 加载loading 动画
+		colesFullScreen() {
+			const loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.4)'
+			})
+			loading.close();
+		}
 	},
 	components: {
 		MHeader

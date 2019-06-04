@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-03 20:16:00
+* @Last Modified time: 2019-06-04 18:35:41
 */
 const express = require('express');
 const router = express.Router();
@@ -21,6 +21,10 @@ router.post('/findUser', (req, res, next) => {
 
 router.post('/register', (req, res, next) => {
 	api.userRegister(req, res, next);
+});
+// 获取用户信息
+router.post('/userHome', (req, res, next) => {
+  api.getUserInfo(req, res, next);
 });
 /*
 	* 文章
@@ -56,6 +60,11 @@ router.post('/upstar', (req, res, next) => {
 // 更新文章点赞数量
 router.post('/upcoll', (req, res, next) => {
 	api.updateColl(req, res, next);
+});
+
+// 查询用户发布的文章
+router.post('/findPublish', (req, res, next) => {
+  api.findPublish(req, res, next);
 });
 
 /*

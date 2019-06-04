@@ -110,9 +110,7 @@ export default {
 					// 设置cookie
 					window.document.cookie = "username" + '=' + name + ";path=/;expires=" + 2;
 					setInterval(function() {
-						that.$router.push({
-							path: '/'
-						})
+						that.$router.push('/')
 					}, 2000)
 				} else {
 					// 其他情况
