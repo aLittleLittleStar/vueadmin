@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-04 18:36:23
+* @Last Modified time: 2019-06-05 09:35:44
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -152,7 +152,19 @@ module.exports = {
 			})
 		})
 	},
-
+	// 查找用户发布的资料
+	findPublishData(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.pushdata.searchPublishData;
+			let params = req.body;
+			connection.query(sql, params.name, (err, result) => {
+				if (err) throw err;
+				// 查找用户发布的所有文章数据
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
 	// 文章详情
 	articleDetail(req, res, next) {
 		pool.getConnection((err, connection) => {

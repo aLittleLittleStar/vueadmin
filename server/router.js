@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-04 18:35:41
+* @Last Modified time: 2019-06-05 09:28:46
 */
 const express = require('express');
 const router = express.Router();
@@ -66,6 +66,11 @@ router.post('/upcoll', (req, res, next) => {
 router.post('/findPublish', (req, res, next) => {
   api.findPublish(req, res, next);
 });
+// 查询用户发布的资料
+router.post('/findPublishData', (req, res, next) => {
+  api.findPublishData(req, res, next);
+});
+
 
 /*
   文章的点赞：

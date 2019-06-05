@@ -28,6 +28,7 @@ html
   align-items: center
   width: 100%
   height: 100%
+  background: #eee
   body
     width: 100%
     height: 100%

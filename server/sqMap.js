@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-04 18:32:27
+* @Last Modified time: 2019-06-05 09:31:53
 */
 // sql语句
 let sqlMap = {
@@ -55,6 +55,8 @@ let sqlMap = {
 		addUserColl: 'insert into usercollection(collstatus, articleid, username) values (? , ?, ?)',
 		// 更新用户点赞状态
 		upsearchColl: 'update usercollection set collstatus = ? where articleid = ? and username = ?',
+		// 用户收藏的文章
+		searchUserColl: 'select * from usercollection where username = ?'
 	},
 	/*
 	 * 学习资料
@@ -66,7 +68,9 @@ let sqlMap = {
 		// 查找资料
 		searchData: 'select * from learndata order by datacollection DESC',
 		// 模糊匹配搜索结果
-		findKeyWords: 'select * from learndata where dataname like ? or dataintroduce like ?'
+		findKeyWords: 'select * from learndata where dataname like ? or dataintroduce like ?',
+		// 查询用户发布的文章
+		searchPublishData: 'select * from learndata where datapushname = ?'
 	}
 }
 

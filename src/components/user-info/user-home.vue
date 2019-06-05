@@ -50,6 +50,7 @@
 					<div class="publish-info">
 						<div 
 							class="item" 
+							v-show="activeTab=='first'"
 							v-for="(item, idx) in publishArt"
 							:key="idx">
 							<div class="item-top">
@@ -90,6 +91,53 @@
 								</router-link>
 							</div>
 						</div>
+						<div 
+							class="item-card"
+							v-show="activeTab=='second'"
+							v-for="item in collectionData"
+							:key="item.id">
+							<el-card shadow="hover">
+								<div class="card-top">
+									<div class="card-title">
+										发布者：
+										<router-link
+											:to="{
+												path: '/user-home/',
+												query: {name: item.datapushname}
+											}">
+											<span>{{item.datapushname}}</span>
+										</router-link>
+									</div>
+								</div>
+								<a
+									:href="item.datawebsite"
+									target="_blank">
+								<div class="card-content">
+									<div class="content-left">
+										<img :src="item.dataicon" alt="Icon">
+									</div>
+									<div class="card-right">
+										<div class="card-name">名称：
+											<span>{{item.dataname}}</span>
+										</div>
+										<div class="card-introduct">介绍：
+											<span>
+												{{item.dataintroduce}}
+											</span>
+										</div>
+									</div>
+								</div>
+								</a>
+								<div class="card-bottom">
+									<div class="card-type">类别：
+										<span>{{item.datatype}}</span>
+									</div>
+									<div class="card-tag">标签：
+										<span>{{item.datatags}}</span>
+									</div>
+								</div>
+							</el-card>
+						</div>
 					</div>
 				</div>
 			</el-col>
@@ -119,6 +167,7 @@ export default {
 		this.getPublishArt();
 	},
 	methods: {
+		// 获取用户信息
 		getUserInfo() {
 			this.$http.post('/api/userHome', {
 				name: this.$route.query.name
@@ -132,6 +181,7 @@ export default {
 				}
 			})
 		},
+		// 获取用户发布的文章
 		getPublishArt() {
 			let that = this;
 			that.$http.post('/api/findPublish', {
@@ -149,6 +199,7 @@ export default {
 				}
 			})
 		},
+		// 获取用户收藏的文章
 		getCollectionArt() {
 			let that = this;
 			that.$http.post('/api/findColl', {
@@ -166,25 +217,25 @@ export default {
 				}
 			})
 		},
+		// 获取用户发布的资料
 		getPublishData() {
 			let that = this;
-			that.$http.post('/api/findData', {
+			that.$http.post('/api/findPublishData', {
 				name: that.$route.query.name
 			}).then((res) => {
 				console.log("res:", res);
 				if (res.status === 200) {
 					that.collectionData = res.data;
-					console.log("res.data:", res.data);
-					// for(let i = 0; i < res.data.length; i++) {
-						// that.publishArt[i].articletime = that.publishArt[i].articletime.slice(0,10)
-					// }
+					console.log("res.collectionData:", res.data);
 				} else {
 					console.log("err");
 				}
 			})
 		},
 		changTab() {
-			console.log("activeTab:", this.activeTab);
+			if (this.activeTab == 'second') {
+				this.getPublishData();
+			}
 		}
 	}
 }
@@ -192,7 +243,7 @@ export default {
 
 <style lang="stylus" scoped>
 .el-container
-	background: #eee
+	// background: #eee
 	display: flex
 	justify-content: center
 	.el-row
@@ -335,5 +386,73 @@ export default {
 	text-decoration: none;
 	font-weight: 600;
 	color: #6464de;
+}
+
+
+// 发布资料的样式
+.item-card
+	margin-top: 0.6rem
+	.item-title
+	.item-list
+		.el-row
+			display: flex
+			flex-direction: column
+			flex-wrap: wrap
+			align-items: flex-start
+			flex-direction: row
+			.el-col
+				margin-bottom: 1rem
+
+.card-top
+	display: flex
+	justify-content: space-between
+	.card-title
+		color: #999
+		span
+			color: #000
+			font-weight: 600
+	.card-coll
+		margin-right: 0.2rem
+		display: flex
+		align-items: center
+.card-content
+	margin: 0.4rem 0
+	display: flex
+	.content-left
+		margin-right: 0.4rem
+		img
+			width: 3rem
+			height: 3rem
+			border: 1px solid rgba(189, 200, 204, 0.6)
+			border-radius: 0.4rem
+	.card-right
+		.card-name
+			color: #999
+			span
+				font-weight: 600
+				color: #444
+		.card-introduct
+			color: #999
+			span
+				font-size: 0.9rem
+				flex-wrap: wrap
+				color: #bbb
+.card-bottom
+	font-size: 0.9rem
+	color: #999
+	.card-type
+		span
+			color: #000
+	.card-tag
+		margin-top: 0.2rem
+		span
+			color: #888
+			background: #eee
+			padding: 0.1rem 0.4rem
+			border-radius: 0.2rem
+
+a,
+a:hover {
+	text-decoration: none
 }
 </style>
