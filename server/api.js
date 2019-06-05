@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-05 09:35:44
+* @Last Modified time: 2019-06-05 19:56:33
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -165,6 +165,34 @@ module.exports = {
 			})
 		})
 	},
+	// 查找用户收藏文章ID
+	findUserCollId(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.usercoll.searchUserCollId;
+			let params = req.body;
+			console.log("searchUserColl：", params);
+			connection.query(sql, params.name, (err, result) => {
+				if (err) throw err;
+				// 查找用户发布的所有文章数据
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
+	// 查找用户收藏文章ID
+	findUserCollDel(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.usercoll.searchUserCollDel;
+			let params = req.body;
+			console.log("searchUserColl：", params);
+			connection.query(sql, params.articleid, (err, result) => {
+				if (err) throw err;
+				// 查找用户发布的所有文章数据
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
 	// 文章详情
 	articleDetail(req, res, next) {
 		pool.getConnection((err, connection) => {
@@ -183,7 +211,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.article.upStar;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params upStar:", params);
 			connection.query(sql, [params.articlelikes, params.articleid],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -199,7 +227,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.article.upColl;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params upColl:", params);
 			connection.query(sql, [params.articlecollection, params.articleid],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -219,7 +247,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.userlike.searchStar;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params searchStar:", params);
 			connection.query(sql, [params.articleid, params.username],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -235,7 +263,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.userlike.upsearchStar;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params upsearchStar:", params);
 			connection.query(sql, [params.starstatus, params.articleid, params.username],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -251,7 +279,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.userlike.addUserStar;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params addUserStar:", params);
 			connection.query(sql, [params.starstatus, params.articleid, params.username],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -270,7 +298,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.usercoll.searchColl;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params searchColl:", params);
 			connection.query(sql, [params.articleid, params.username],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -286,7 +314,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.usercoll.upsearchColl;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params upsearchColl:", params);
 			connection.query(sql, [params.collstatus, params.articleid, params.username],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -302,7 +330,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.usercoll.addUserColl;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params addUserColl:", params);
 			connection.query(sql, [params.collstatus, params.articleid, params.username],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
@@ -321,7 +349,7 @@ module.exports = {
 		pool.getConnection((err, connection) => {
 			let sql = sqlMap.pushdata.addData;
 			let params = req.body;
-			console.log("params:", params);
+			console.log("params addData:", params);
 			connection.query(sql, [params.dataname, params.dataicon, params.datawebsite, params.dataintroduce, params.datatype, params.datatags, params.datapushname],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });

@@ -18,6 +18,42 @@
 
 ### 项目最终要达到的效果
 
+## 项目目录结构
+```bash
++ vueadmin
+  + node_nodules # 基础依赖包
+  + public 
+  + server       # node连接mysql数据库服务
+    + api.js     # 函数操作
+    + db.js      # 数据库连接配置
+    + index.js   # 出口函数 运行 node index
+    + router.js  # express 路由
+    + sqMap.js   # SQL增删改查语句
+  + src
+    + assets     # 静态资源储存
+      + common   # 公共的资源
+        + fonts  # 字体
+        + image  # 图片
+        + js     # js
+        + stylus # css样式
+      + say      # README上面展示的图片
+    + components # 页面组件
+      + article  # 文章页面
+      + data-list   # 学习资料列表页面
+      + editor      # WangEditor富文本编译器组件
+      + header      # 头部组件
+      + login       # 登录页面
+      + publish     # 发布文章页面
+      + recommend   # 推荐页面【首页】
+      + register    # 注册页面
+      + search-info # 搜索学习资料结果页面
+    + App.vue    # 整个项目的入口文件，相当于包裹整个页面的最外层的div
+    + main.js    # 项目的主js,全局的使用的各种变量、js、插件 都在这里引入 、定义。
+    + router.js  # vueRouter路由
+    + store.js   # vuex
+
+```
+
 ## 项目流程
 ### 1. 数据库设计
 |表名|说明|设置字段|
@@ -164,42 +200,40 @@ PostCSS, ESLint, etc.? In package.json
   + 首页、学习资源、文章详情
 
 #### 新建个人主页页面：未完成数据交互
+##### 发布的文章、发布的资料
 ### 2019/6/5
-#### 个人主页页面:添加收藏文章的交互
+#### 个人主页页面:添加展示收藏文章的交互
+##### 效果图
+![个人主页-文章](src/assets/say/user-home-art.png)
+![个人主页-资料](src/assets/say/user-home-data.png)
+![个人主页-收藏](src/assets/say/user-home-coll.png)
 
-
-## 项目目录结构
-```bash
-+ vueadmin
-  + node_nodules # 基础依赖包
-  + public 
-  + server       # node连接mysql数据库服务
-    + api.js     # 函数操作
-    + db.js      # 数据库连接配置
-    + index.js   # 出口函数 运行 node index
-    + router.js  # express 路由
-    + sqMap.js   # SQL增删改查语句
-  + src
-    + assets     # 静态资源储存
-      + common   # 公共的资源
-        + fonts  # 字体
-        + image  # 图片
-        + js     # js
-        + stylus # css样式
-      + say      # README上面展示的图片
-    + components # 页面组件
-      + article  # 文章页面
-      + data-list   # 学习资料列表页面
-      + editor      # WangEditor富文本编译器组件
-      + header      # 头部组件
-      + login       # 登录页面
-      + publish     # 发布文章页面
-      + recommend   # 推荐页面【首页】
-      + register    # 注册页面
-      + search-info # 搜索学习资料结果页面
-    + App.vue    # 整个项目的入口文件，相当于包裹整个页面的最外层的div
-    + main.js    # 项目的主js,全局的使用的各种变量、js、插件 都在这里引入 、定义。
-    + router.js  # vueRouter路由
-    + store.js   # vuex
-
+##### 基本思路
+```absh
+个人主页展示：
+  个人的基本信息
+    头像、昵称、性别、生日
+  主体部分
+    发布的文章
+    发布的资料
+    收藏的文章
+如何实现：
+  个人基本资料： 根据用户昵称获取 userInfo 表里面用户的信息
+  发布的文章： 根据用户昵称获取 article 表里面用户发布的文章
+  发布的资料： 根据用户昵称获取 learndata 表里面用户发布的资料
+  收藏的文章： 
+    首先： 根据用户名及收藏的状态获取 usercollection 表里面用户收藏文章的Id
+    第二： 根据收藏的id长度循环请求 article 表里面文章详情
+    第三： 将循环获取的数据保存在 collectionArtDelList 数组里
+    第四： 通过 v-for 循环遍历 collectionArtDelList 里的数据
+    第五： 和以前的json不同 这里的 循环元素为 item[0]
 ```
+
+##### 待解决
+1. 如果没有发布文章、资料和收藏文章的样式【有点麻烦】
+2. 点击有上角设置按钮：跳转到个人中心页面对自己的资料进行设置【必要】
+
+##### 后期优化
+1. 在查找用户收藏文章的时候，MySQL查询语句太多，请求次数太多
+2. server服务端api函数太多，严重影响后期代码的编写及维护，准备抽取出小组件，把处理文章、资料、点赞、收藏等的请求分别放到单独的文件里便于管理及书写
+

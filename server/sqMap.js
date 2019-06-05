@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-05 09:31:53
+* @Last Modified time: 2019-06-05 20:13:18
 */
 // sql语句
 let sqlMap = {
@@ -49,14 +49,16 @@ let sqlMap = {
 	* 用户收藏的判断
 	*/
 	usercoll: {
-		// 查找用户点赞状态
+		// 查找用户收藏状态
 		searchColl: 'select * from usercollection where articleid = ? and username = ?',
-		// 插入用户的点赞的数据
+		// 插入用户的收藏的数据
 		addUserColl: 'insert into usercollection(collstatus, articleid, username) values (? , ?, ?)',
-		// 更新用户点赞状态
+		// 更新用户收藏状态
 		upsearchColl: 'update usercollection set collstatus = ? where articleid = ? and username = ?',
-		// 用户收藏的文章
-		searchUserColl: 'select * from usercollection where username = ?'
+		// 查询出用户收藏文章的ID
+		searchUserCollId: 'select articleid from usercollection where username = ? and collstatus = 1',
+		// 查询出用户收藏文章的详情
+		searchUserCollDel: 'select * from article where articleid = ?',
 	},
 	/*
 	 * 学习资料

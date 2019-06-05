@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-05 09:28:46
+* @Last Modified time: 2019-06-05 19:53:31
 */
 const express = require('express');
 const router = express.Router();
@@ -70,8 +70,13 @@ router.post('/findPublish', (req, res, next) => {
 router.post('/findPublishData', (req, res, next) => {
   api.findPublishData(req, res, next);
 });
-
-
+// 查询用户收藏的文章
+router.post('/findUserCollId', (req, res, next) => {
+  api.findUserCollId(req, res, next);
+});
+router.post('/findUserCollDel', (req, res, next) => {
+  api.findUserCollDel(req, res, next);
+});
 /*
   文章的点赞：
   思路： 判断用户是否从未点赞过该文章【判断用户点赞状态】

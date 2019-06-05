@@ -37,8 +37,7 @@
 							<el-tabs 
 								type="card"
 								v-model="activeTab" 
-								:stretch="false"
-								@tab-click="changTab">
+								:stretch="false">
 								<el-tab-pane label="发布的文章" name="first" />
 								<el-tab-pane label="发布的资料" name="second">
 								</el-tab-pane>
@@ -48,6 +47,7 @@
 						</div>
 					</div>
 					<div class="publish-info">
+						<!-- 发布的文章 -->
 						<div 
 							class="item" 
 							v-show="activeTab=='first'"
@@ -91,10 +91,11 @@
 								</router-link>
 							</div>
 						</div>
+						<!-- 发布的资料 -->
 						<div 
 							class="item-card"
 							v-show="activeTab=='second'"
-							v-for="item in collectionData"
+							v-for="item in publishData"
 							:key="item.id">
 							<el-card shadow="hover">
 								<div class="card-top">
@@ -138,6 +139,50 @@
 								</div>
 							</el-card>
 						</div>
+						<!-- 收藏的文章 -->
+						<div 
+							class="item" 
+							v-show="activeTab=='third'"
+							v-for="item in collectionArtDelList"
+							:key="item.id">
+							<div class="item-top">
+								<div class="item-top-say">专栏</div>
+								<div class="item-top-user">{{item[0].articleavatar}}</div>
+								<div class="item-top-time">{{item[0].articletime}}</div>
+								<div class="item-top-type">{{item[0].ttype}}</div>
+							</div>
+							<div
+								class="item-center">
+								<router-link 
+									:to="{
+											path: '/article/'+item[0].articleid,
+											query: {id: item[0].articleid}}">
+									<div class="item-center-title">
+										{{item[0].articletitle}}
+									</div>
+									<div class="item-center-content">
+										{{item[0].articlebrief}}
+									</div>
+								</router-link>
+							</div>
+							<div 
+								class="item-bottom">
+								<router-link 
+									:to="{
+										path: '/article/'+item[0].articleid,
+										query: {id: item[0].articleid}}">
+									<div class="item-bottom-like">
+										点赞 {{item[0].articlelikes}}
+									</div>
+									<div class="item-bottom-collection">
+										收藏 {{item[0].articlecollection}}
+									</div>
+									<div class="item-bottom-look">
+										浏览量 {{item[0].articlelook}}
+									</div>
+								</router-link>
+							</div>
+						</div>
 					</div>
 				</div>
 			</el-col>
@@ -155,16 +200,22 @@ export default {
 			userHome: '',
 			// 发布的文章
 			publishArt: '',
-			// 收藏的文章
-			collectionArt: '',
+			// 收藏文章的Id
+			collectionArtId: '',
+			// 收藏文章的详情
+			collectionArtDel: [],
+			// 把点赞的文章详情保存在列表里面
+			collectionArtDelList: [],
 			// 发布的资料
-			collectionData: '',
+			publishData: '',
 			activeTab: 'first',
 		}
 	},
 	mounted() {
 		this.getUserInfo();
 		this.getPublishArt();
+		this.getPublishData();
+		this.getCollectionArtId();
 	},
 	methods: {
 		// 获取用户信息
@@ -199,24 +250,6 @@ export default {
 				}
 			})
 		},
-		// 获取用户收藏的文章
-		getCollectionArt() {
-			let that = this;
-			that.$http.post('/api/findColl', {
-				name: that.$route.query.name
-			}).then((res) => {
-				console.log("res:", res);
-				if (res.status === 200) {
-					that.collectionArt = res.data;
-					console.log("res.data:", res.data);
-					for(let i = 0; i < res.data.length; i++) {
-						that.collectionArt[i].articletime = that.collectionArt[i].articletime.slice(0,10)
-					}
-				} else {
-					console.log("err");
-				}
-			})
-		},
 		// 获取用户发布的资料
 		getPublishData() {
 			let that = this;
@@ -225,16 +258,47 @@ export default {
 			}).then((res) => {
 				console.log("res:", res);
 				if (res.status === 200) {
-					that.collectionData = res.data;
-					console.log("res.collectionData:", res.data);
+					that.publishData = res.data;
+					console.log("res.publishData:", res.data);
 				} else {
 					console.log("err");
 				}
 			})
 		},
-		changTab() {
-			if (this.activeTab == 'second') {
-				this.getPublishData();
+		// 获取用户收藏文章的ID
+		getCollectionArtId() {
+			let that = this;
+			that.$http.post('/api/findUserCollId', {
+				name: that.$route.query.name
+			}).then((res) => {
+				console.log("res:", res);
+				if (res.status === 200) {
+					that.collectionArtId = res.data;
+					console.log("res.collectionArtId:", res);
+					that.getCollectionArtDel();
+				} else {
+					console.log("err");
+				}
+			})
+		},
+		// 获取用户收藏文章的ID
+		getCollectionArtDel() {
+			let that = this;
+			for(let i =0; i< that.collectionArtId.length; i++) {
+				that.$http.post('/api/findUserCollDel', {
+					articleid: that.collectionArtId[i].articleid
+				}).then((res) => {
+					console.log("res:", res);
+					if (res.status === 200) {
+						res.data[0].articletime = res.data[0].articletime.slice(0,10);
+						that.collectionArtDel = res.data;
+						console.log("res.collectionArtDel:", res);
+						that.collectionArtDelList.push(that.collectionArtDel);
+						console.log("collectionArtDelList:", that.collectionArtDelList);
+					} else {
+						console.log("err");
+					}
+				})
 			}
 		}
 	}
@@ -242,217 +306,5 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.el-container
-	// background: #eee
-	display: flex
-	justify-content: center
-	.el-row
-		margin-left: -5px
-		margin-right: -5px
-		width: 100%
-		height: 100%
-		display: flex
-		justify-content: center
-		.el-col
-			.content
-				height: 100%
-				display: flex
-				flex-direction: column
-				.avatar-info
-					height: 14rem
-					background: orange
-					width: 100%
-					display: flex
-					flex-direction: column
-					justify-content: space-between
-					background: #fff
-					margin-top: 4rem
-					border-radius: 0.2rem
-					box-shadow: 0 1px 2px rgba(0, 0, 0, .1)
-					.avatar-top
-						display: flex
-						justify-content: space-between
-						.left
-							display: flex
-							margin-left: 1rem
-							.avatar-left
-								margin-top: -2rem
-								margin: -2rem 1rem 0 0rem
-								.avatar-img
-									width: 6rem
-									height: 6rem
-									box-sizing: border-box
-									img
-										width: 6rem
-										height: 6rem
-										border: 0.08rem solid #fff
-										border-radius: 0.4rem
-										box-shadow: 0 1px 2px rgba(0, 0, 0, .2)
-							.avatar-right
-								margin-top: 1rem
-								.avatar-name
-									span
-										font-weight: 600
-										letter-spacing: 0.1rem
-										margin-bottom: 0.4rem
-										color: #444
-								.avatar-sex
-									padding: 0.4rem 0
-									span
-										color: #444
-										padding-right: 0.3rem
-								.avatar-birth
-									span
-										padding-right: 0.3rem
-										color: #444
-						.right
-							.seting
-								margin: 1rem
-								padding: 0.2rem 0.4rem
-								background: #eee
-								border-radius: 0.1rem
-								&:hover
-									cursor: pointer
-									background: #d9d9d9
-					.avatar-bottom
-						padding: 0 1rem
-				.publish-info
-					margin-top: 1rem
-					min-height: 30rem
-
-// 引用recommend.styl
-.item
-	display: flex
-	flex-direction: column
-	border-bottom: 1px solid #eee
-	padding: 1rem
-	border-radius: 0.2rem
-	background: #fff
-	&:hover
-		background: #e5e9f2
-	.item-top
-		display: flex
-		color: #b2bac2
-		font-size: 0.9rem
-		.item-top-say
-			margin-right: 0.8rem
-			color: #b71ed7
-		.item-top-user
-			cursor: pointer
-			&:hover
-				color: #6fbd69
-		.item-top-time
-			margin: 0 0.8rem
-		.item-top-type
-			&:hover
-				color: #f7b87b
-	.item-center
-		cursor: pointer
-		display: flex
-		flex-direction: column
-		margin: 0.4rem 0
-		.item-center-title
-			font-size: 1.2rem
-			margin-bottom: 0.4rem
-			font-weight: 600
-			letter-spacing: 0.1rem
-			&:hover
-				text-decoration: underline
-		.item-center-content
-			font-size: 1rem
-			letter-spacing: 0.08rem
-	.item-bottom
-		display: flex
-		color: #b2bac2
-		font-size: 0.9rem
-		.item-bottom-like
-			cursor: pointer
-			margin-right: 0.8rem
-		.item-bottom-collection
-			cursor: pointer
-			margin-right: 0.8rem
-		.item-bottom-look
-			cursor: pointer
-
-.item-center a,
-.item-center a:hover{
-	color: #ef8b80;
-	text-decoration: none;
-}
-
-.item-bottom a,
-.item-bottom a:hover{
-	display: inline-flex;
-	text-decoration: none;
-	font-weight: 600;
-	color: #6464de;
-}
-
-
-// 发布资料的样式
-.item-card
-	margin-top: 0.6rem
-	.item-title
-	.item-list
-		.el-row
-			display: flex
-			flex-direction: column
-			flex-wrap: wrap
-			align-items: flex-start
-			flex-direction: row
-			.el-col
-				margin-bottom: 1rem
-
-.card-top
-	display: flex
-	justify-content: space-between
-	.card-title
-		color: #999
-		span
-			color: #000
-			font-weight: 600
-	.card-coll
-		margin-right: 0.2rem
-		display: flex
-		align-items: center
-.card-content
-	margin: 0.4rem 0
-	display: flex
-	.content-left
-		margin-right: 0.4rem
-		img
-			width: 3rem
-			height: 3rem
-			border: 1px solid rgba(189, 200, 204, 0.6)
-			border-radius: 0.4rem
-	.card-right
-		.card-name
-			color: #999
-			span
-				font-weight: 600
-				color: #444
-		.card-introduct
-			color: #999
-			span
-				font-size: 0.9rem
-				flex-wrap: wrap
-				color: #bbb
-.card-bottom
-	font-size: 0.9rem
-	color: #999
-	.card-type
-		span
-			color: #000
-	.card-tag
-		margin-top: 0.2rem
-		span
-			color: #888
-			background: #eee
-			padding: 0.1rem 0.4rem
-			border-radius: 0.2rem
-
-a,
-a:hover {
-	text-decoration: none
-}
+@import '../../assets/common/stylus/user-home.styl'
 </style>
