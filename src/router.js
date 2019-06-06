@@ -22,7 +22,7 @@ import SearchInfo from './components/search-info/search-info'
 import Copy from './components/register/copy'
 // 个人信息：个人主页&&个人中心
 import UserHome from './components/user-info/user-home'
-
+import UserCenter from './components/user-info/user-center'
 
 Vue.use(Router)
 
@@ -62,6 +62,10 @@ const routes = [
   {
     path: '/user-home',
     component: UserHome
+  },
+  {
+    path: '/user-center',
+    component: UserCenter
   },
   {
     path: '/copy',

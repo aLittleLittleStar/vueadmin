@@ -18,7 +18,14 @@
 									v-show="activeName === 'first'">
 									<div class="item-top">
 										<div class="item-top-say">专栏</div>
-										<div class="item-top-user">{{item.articleavatar}}</div>
+										<router-link
+											target="_blank"
+											:to="{
+												path: '/user-home/',
+												query: {name: item.articleavatar}
+											}">
+											<div class="item-top-user">{{item.articleavatar}}</div>
+										</router-link>
 										<div class="item-top-time">{{item.articletime}}</div>
 										<div class="item-top-type">{{item.ttype}}</div>
 									</div>
@@ -66,7 +73,14 @@
 									v-show="activeName === 'secnod'">
 									<div class="item-top">
 										<div class="item-top-say">专栏</div>
-										<div class="item-top-user">{{item.articleavatar}}</div>
+										<router-link
+											target="_blank"
+											:to="{
+												path: '/user-home/',
+												query: {name: item.articleavatar}
+											}">
+											<div class="item-top-user">{{item.articleavatar}}</div>
+										</router-link>
 										<div class="item-top-time">{{item.articletime}}</div>
 										<div class="item-top-type">{{item.ttype}}</div>
 									</div>

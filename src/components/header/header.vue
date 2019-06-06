@@ -7,14 +7,26 @@
 		<el-submenu
 			v-if="nowUserName"
 			index="/user">
-			<template slot="title">我的</template>
-			<el-menu-item 
-				index="/user-page">
-				个人中心
+			<template slot="title">{{this.nowUserName}}</template>
+			<el-menu-item>
+				<router-link
+					target="_blank"
+					:to="{
+						path: '/user-center/',
+						query: {name: this.nowUserName}
+					}">
+					个人中心
+				</router-link>
 			</el-menu-item>
-			<el-menu-item 
-				index="/user-home">
-				个人主页
+			<el-menu-item>
+				<router-link
+					target="_blank"
+					:to="{
+						path: '/user-home/',
+						query: {name: this.nowUserName}
+					}">
+					个人主页
+				</router-link>
 			</el-menu-item>
 		</el-submenu>
 		<el-menu-item
@@ -75,3 +87,10 @@
 		}
 	}
 </script>
+
+<style lang="stylus" scoped>
+.el-menu-item
+	a
+		color: #909399
+		text-decoration: none
+</style>

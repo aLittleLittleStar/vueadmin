@@ -27,10 +27,19 @@
 									</div>
 								</div>
 							</div>
-							<div class="right">
-								<div class="seting">
-									<span class="iconfont icon-setting"></span>
-								</div>
+							<div 
+								class="right"
+								v-if="isMe">
+								<router-link
+									target="_blank"
+									:to="{
+										path: '/user-center/',
+										query: {name: userHome.name}
+									}">
+									<div class="seting">
+										<span class="iconfont icon-shezhi"></span>
+									</div>
+								</router-link>
 							</div>
 						</div>
 						<div class="avatar-bottom">
@@ -147,7 +156,16 @@
 							:key="item.id">
 							<div class="item-top">
 								<div class="item-top-say">专栏</div>
-								<div class="item-top-user">{{item[0].articleavatar}}</div>
+								<div class="item-top-user">
+									<router-link 
+										target="_blank"
+										:to="{
+											path: '/user-home/',
+											query: {name: item[0].articleavatar}
+										}">
+										{{item[0].articleavatar}}
+									</router-link>
+								</div>
 								<div class="item-top-time">{{item[0].articletime}}</div>
 								<div class="item-top-type">{{item[0].ttype}}</div>
 							</div>
@@ -196,6 +214,8 @@ export default {
 	name: 'UserHome',
 	data() {
 		return {
+			// 判断浏览主页的用户是否为本人
+			isMe: false,
 			// 用户的基本信息
 			userHome: '',
 			// 发布的文章
@@ -220,6 +240,11 @@ export default {
 	methods: {
 		// 获取用户信息
 		getUserInfo() {
+			if (document.cookie.slice(9) == this.$route.query.name) {
+				this.isMe = true;
+			} else {
+				this.isMe = false;
+			}
 			this.$http.post('/api/userHome', {
 				name: this.$route.query.name
 			}).then((res) => {

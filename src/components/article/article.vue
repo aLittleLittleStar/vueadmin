@@ -15,7 +15,14 @@
 									<img :src="articleInfo.avator" alt="头像">
 								</div>
 								<div class="avatar-name">
+									<router-link
+										target="_blank"
+										:to="{
+											path: '/user-home/',
+											query: {name: articleInfo.articleavatar}
+										}">
 									{{articleInfo.articleavatar}}
+									</router-link>
 								</div>
 								<el-tag type="info">
 									{{articleInfo.ttype}}

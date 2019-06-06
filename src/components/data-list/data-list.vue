@@ -42,6 +42,7 @@
 												<div class="card-title">
 													发布者：
 													<router-link
+														target="_blank"
 														:to="{
 															path: '/user-home/',
 															query: {name: item.datapushname}
