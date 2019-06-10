@@ -307,4 +307,14 @@ PostCSS, ESLint, etc.? In package.json
 
 ##### 方法
 ```bash
+# 方式一
+{
+  path: '/',
+  name: 'Recommend',
+  component: resolve => require(['./components/recommend/recommend'], resolve)
+}
+
+# 方式二
+const Login = resolve => require(['./components/login/login'], resolve);
+
 ```
