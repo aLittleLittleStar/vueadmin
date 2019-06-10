@@ -1,75 +1,95 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// 引入组件
-// 首页： 推荐页面
-import Recommend from './components/recommend/recommend'
-// 登录页面
-import Login from './components/login/login'
-// 注册页面
-import Register from './components/register/register'
-// 发布文章页面
-import Publish from './components/publish/publish'
-// 文章详情页面
-import Article from './components/article/article'
-// 
-import Tools from './components/tools/tools'
-// 学习资源页面
-import DataList from './components/data-list/data-list'
-// 发布学习资源页面
-import PublishData from './components/publish-data/publish-data'
-// 搜索学习资源结果页面
-import SearchInfo from './components/search-info/search-info'
-import Copy from './components/register/copy'
-// 个人信息：个人主页&&个人中心
-import UserHome from './components/user-info/user-home'
-import UserCenter from './components/user-info/user-center'
+// // 引入组件
+// // 首页： 推荐页面
+// import Recommend from './components/recommend/recommend'
+// // 登录页面
+// import Login from './components/login/login'
+// // 注册页面
+// import Register from './components/register/register'
+// // 发布文章页面
+// import Publish from './components/publish/publish'
+// // 文章详情页面
+// import Article from './components/article/article'
+// // 学习资源页面
+// import DataList from './components/data-list/data-list'
+// // 发布学习资源页面
+// import PublishData from './components/publish-data/publish-data'
+// // 搜索学习资源结果页面
+// import SearchInfo from './components/search-info/search-info'
+// import Copy from './components/register/copy'
+// // 个人信息：个人主页&&个人中心
+// import UserHome from './components/user-info/user-home'
+// import UserCenter from './components/user-info/user-center'
 
 Vue.use(Router)
 
 const routes = [
   {
+    // 首页： 推荐页面
     path: '/',
-    component: Recommend
+    name: 'Recommend',
+    component: resolve => require(['./components/recommend/recommend'], resolve)
   },
   {
+    // 登录页面
     path: '/login',
-    component: Login
+    name: 'Login',
+    component: resolve => require(['./components/login/login'], resolve)
   },
   {
+    // 注册页面
     path: '/register',
-    component: Register
+    name: 'Register',
+    component: resolve => require(['./components/register/register'], resolve)
   },
   {
+    // 发布文章页面
     path: '/publish',
-    component: Publish
+    name: 'Publish',
+    component: resolve => require(['./components/publish/publish'], resolve)
   },
   {
+    // 文章详情页面
     path: '/article/:id',
-    component: Article
+    name: 'Article',
+    component: resolve => require(['./components/article/article'], resolve)
   },
   {
+    // 学习资源页面
     path: '/datalist',
-    component: DataList
+    name: 'DataList',
+    component: resolve => require(['./components/data-list/data-list'], resolve)
   },
   {
+    // 发布学习资源页面
     path: '/publishdata',
-    component: PublishData
+    name: 'PublishData',
+    component: resolve => require(['./components/publish-data/publish-data'], resolve)
   },
   {
+    // 搜索学习资源结果页面
     path: '/searchInfo',
-    component: SearchInfo
+    name: 'SearchInfo',
+    component: resolve => require(['./components/search-info/search-info'], resolve)
   },
   {
+    // 个人信息：个人主页
     path: '/user-home',
-    component: UserHome
+    name: 'UserHome',
+    component: resolve => require(['./components/user-info/user-home'], resolve)
   },
   {
+    // 个人信息：个人中心
     path: '/user-center',
-    component: UserCenter
+    name: 'UserCenter',
+    component: resolve => require(['./components/user-info/user-center'], resolve)
   },
   {
+    // 测试页面
     path: '/copy',
-    component: Copy
+    name: 'Copy',
+    component: resolve => require(['./components/register/copy'], resolve)
   },
 ]
 
