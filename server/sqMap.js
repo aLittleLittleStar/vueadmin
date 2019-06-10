@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-05 20:13:18
+* @Last Modified time: 2019-06-10 17:37:56
 */
 // sql语句
 let sqlMap = {
@@ -12,7 +12,15 @@ let sqlMap = {
 		find: 'select * from userInfo where name = ?',
 		search: 'select * from userInfo',
 		login: 'select * from userInfo where name = ? and pass = ?',
-		getInfo: 'select name, birth, sex, avator from userInfo where name = ?'
+		getInfo: 'select id, name, birth, sex, avator from userInfo where name = ?',
+		// 校验密码
+		// findPass: 'select id from userInfo where pass = ?'
+		// 更新昵称、性别、生日
+		upBaseInfo: 'update userInfo set name = ?, sex = ?, birth = ? where id = ?',
+		// 更新头像
+		upImg: '',
+		/*更新密码*/
+		upPass: '',
 	},
 	article: {
 		// 按照时间先后顺序查询: DESC倒序
@@ -32,7 +40,9 @@ let sqlMap = {
 		addArticleId: 'update userlikes set articleid = ? where userid = ?',
 		addColl: 'insert into article(articlecollection) where articleid = ?',
 		// 查询用户发布的文章
-		searchPublish: 'select * from article where articleavatar = ?'
+		searchPublish: 'select * from article where articleavatar = ?',
+		// 删除文章
+		delArticle: 'delete from article where articleid = ?'
 	},
 	/*
 	 用户点赞的判断
@@ -59,6 +69,8 @@ let sqlMap = {
 		searchUserCollId: 'select articleid from usercollection where username = ? and collstatus = 1',
 		// 查询出用户收藏文章的详情
 		searchUserCollDel: 'select * from article where articleid = ?',
+		// 取消收藏
+		cancelStar: 'update usercollection set collstatus = 0 where articleid = ? and username = ?'
 	},
 	/*
 	 * 学习资料
@@ -72,7 +84,9 @@ let sqlMap = {
 		// 模糊匹配搜索结果
 		findKeyWords: 'select * from learndata where dataname like ? or dataintroduce like ?',
 		// 查询用户发布的文章
-		searchPublishData: 'select * from learndata where datapushname = ?'
+		searchPublishData: 'select * from learndata where datapushname = ?',
+		// 删除资料
+		delData: 'delete from learndata where dataid = ?'
 	}
 }
 

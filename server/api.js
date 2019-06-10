@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-05 19:56:33
+* @Last Modified time: 2019-06-10 09:26:41
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -86,6 +86,27 @@ module.exports = {
 			})
 		})
 	},
+	/*
+		* 更新用户信息
+		* 1、基本信息：昵称、性别、生日
+		* 2、用户头像
+		* 3、用户密码
+	*/
+	upBaseInfo(req, res, next) {
+		let sql = sqlMap.user.upBaseInfo;
+		let params = req.body;
+		// console.log("params:", params);
+		pool.getConnection((err, connection) => {
+			connection.query(sql, [params.name, params.sex, params.birth, params.id], (err, result) => {
+				if (err) {
+					return callback(err);
+				}
+				res.send({status:  200 });
+			})
+		})
+	},
+
+
 	// 查找文章数据 : 分页查找
 	articleInfo(req, res, next) {
 		pool.getConnection((err, connection) => {
@@ -136,6 +157,51 @@ module.exports = {
 				}
 				// 插入文章数据
 				res.send({status:  200 });
+			})
+		})
+	},
+	// 删除文章
+	delArticle(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.article.delArticle;
+			let params = req.body;
+			connection.query(sql, params.articleid,  (err, result) => {
+				if (err) {
+					res.send({status:  -1 });
+					console.log("err:", err);
+				}
+				// 插入文章数据
+				res.send({status:  200 })
+			})
+		})
+	},
+	// 删除资料
+	delData(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.pushdata.delData;
+			let params = req.body;
+			connection.query(sql, params.dataid,  (err, result) => {
+				if (err) {
+					res.send({status:  -1 });
+					console.log("err:", err);
+				}
+				// 插入文章数据
+				res.send({status:  200 })
+			})
+		})
+	},
+	// 取消收藏文章
+	cancelArticle(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.usercoll.cancelStar;
+			let params = req.body;
+			connection.query(sql, [params.articleid, params.name],  (err, result) => {
+				if (err) {
+					res.send({status:  -1 });
+					console.log("err:", err);
+				}
+				// 插入文章数据
+				res.send({status:  200 })
 			})
 		})
 	},

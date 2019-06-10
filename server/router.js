@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-05 19:53:31
+* @Last Modified time: 2019-06-10 17:38:03
 */
 const express = require('express');
 const router = express.Router();
@@ -26,6 +26,22 @@ router.post('/register', (req, res, next) => {
 router.post('/userHome', (req, res, next) => {
   api.getUserInfo(req, res, next);
 });
+/*
+	* 更新用户信息
+	* 1、基本信息：昵称、性别、生日
+	* 2、用户头像
+	* 3、用户密码
+*/
+router.post('/upBaseInfo', (req, res, next) => {
+  api.upBaseInfo(req, res, next);
+});
+// //校验当前密码是否正确
+// router.post('/upBaseInfo', (req, res, next) => {
+//   api.upBaseInfo(req, res, next);
+// });
+
+
+
 /*
 	* 文章
  */
@@ -77,6 +93,19 @@ router.post('/findUserCollId', (req, res, next) => {
 router.post('/findUserCollDel', (req, res, next) => {
   api.findUserCollDel(req, res, next);
 });
+
+/*
+ * 用户删除发布的文章、资料、取消收藏的文章
+ */
+router.post('/delArticle', (req, res, next) => {
+  api.delArticle(req, res, next);
+});
+router.post('/delData', (req, res, next) => {
+  api.delData(req, res, next);
+});
+router.post('/cancelArticle', (req, res, next) => {
+  api.cancelArticle(req, res, next);
+});
 /*
   文章的点赞：
   思路： 判断用户是否从未点赞过该文章【判断用户点赞状态】
@@ -127,54 +156,6 @@ router.post('/getSearchInfo', (req, res, next) => {
   api.getSearchInfo(req, res, next);
 });
 
-
-
-/*
-// 获取时间
-function getNowFormatDate() {
-    var date = new Date();
-    var seperator1 = "-";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-    return currentdate.toString();
-}
-
-
-// 上传头像：【测试】: 未成功
-
-var datatime = 'uploadPath/'+getNowFormatDate();
-
-//定义图片上传的临时目录
-var storage = multer.diskStorage({
-    // 如果你提供的 destination 是一个函数，你需要负责创建文件夹
-    destination: datatime,
-    //给上传文件重命名，获取添加后缀名
-    filename: function (req, file, cb) {
-        cb(null,  file.originalname);
-     }
-}); 
-
-
-let upload = multer({storage: storage});
-
-
-router.post('/uploads', upload.single('picUrl'), function(req, res, next) {
-	// req.file 是 前端表单name=="imageFile" 的文件信息（不是数组）
-	console.log(req.body.picTitle)//console.log(req.query.picTitle);//get
-	console.log(req.body.picType)
-	console.log(req.file)//req.file文件的具体信息
-
-	res.send({ret_code: datatime});
-});
-
-*/
 
 
 
