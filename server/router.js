@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-10 17:38:03
+* @Last Modified time: 2019-06-12 09:30:25
 */
 const express = require('express');
 const router = express.Router();
@@ -35,10 +35,10 @@ router.post('/userHome', (req, res, next) => {
 router.post('/upBaseInfo', (req, res, next) => {
   api.upBaseInfo(req, res, next);
 });
-// //校验当前密码是否正确
-// router.post('/upBaseInfo', (req, res, next) => {
-//   api.upBaseInfo(req, res, next);
-// });
+//更新当前密码
+router.post('/modifyPass', (req, res, next) => {
+  api.modifyPass(req, res, next);
+});
 
 
 

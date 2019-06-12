@@ -318,3 +318,9 @@ PostCSS, ESLint, etc.? In package.json
 const Login = resolve => require(['./components/login/login'], resolve);
 
 ```
+
+### 2019/6/12
+```bash
+更新用户密码成功：
+图表统计完成 echarts
+```

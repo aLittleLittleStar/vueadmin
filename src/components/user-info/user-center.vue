@@ -79,15 +79,15 @@
 						<el-collapse-item title="密码" name="3">
 							<div class="user-info-del">
 								<el-form
-									:model="ruleForm"
+									:model="rulePass"
 									:rules="rules"
-									ref="ruleForm">
+									ref="rulePass">
 									<el-form-item
 										label="当前密码"
 										prop="pass">
 										<el-input
 											type="password"
-											v-model="ruleForm.pass"
+											v-model="rulePass.pass"
 											auto-complete="off">
 										</el-input>
 									</el-form-item>
@@ -96,7 +96,7 @@
 										prop="newPass">
 										<el-input
 											type="password"
-											v-model="ruleForm.newPass"
+											v-model="rulePass.newPass"
 											auto-complete="off">
 										</el-input>
 									</el-form-item>
@@ -105,13 +105,13 @@
 										prop="checkPass">
 										<el-input
 											type="password"
-											v-model="ruleForm.checkPass">
+											v-model="rulePass.checkPass">
 										</el-input>
 									</el-form-item>
 									<el-form-item>
 										<el-button 
 											type="primary" 
-											@click="upUserPass('ruleForm')">
+											@click="upUserPass('rulePass')">
 												确认更新
 										</el-button>
 									</el-form-item>
@@ -251,25 +251,12 @@
 								</el-table>
 							</div>
 						</el-collapse-item>
-						<el-collapse-item title="设置" name="7">
-							<div class="user-info-del">
-								<el-form
-									:model="ruleForm"
-									:rules="rules"
-									ref="ruleForm">
-									<el-form-item
-										label="用户昵称"
-										prop="name">
-										<el-input v-model="ruleForm.name"></el-input>
-									</el-form-item>
-									<el-form-item>
-										<el-button 
-											type="primary" 
-											@click="submitForm('ruleForm')">
-												编辑
-										</el-button>
-									</el-form-item>
-								</el-form>
+						<el-collapse-item title="图表统计" name="7">
+							<div class="user-info-del set-circle">
+								<div 
+									id="myChartCricle" 
+									style="width:20rem;height:20rem;">
+								</div>
 							</div>
 						</el-collapse-item>
 					</el-collapse>
@@ -289,9 +276,9 @@ export default {
 			if (value === '') {
 				callback(new Error('请输入当前密码'));
 			} else {
-				// 检验确认密码
-				if (this.ruleForm.pass !== '') {
-					this.$refs.ruleForm.validateField('pass');
+				// 检验新密码
+				if (this.rulePass.newPass !== '') {
+					this.$refs.rulePass.validateField('newPass');
 				}
 				callback();
 			}
@@ -301,9 +288,9 @@ export default {
 			if (value === '') {
 				callback(new Error('请输入新密码'));
 			} else {
-				// 检验新密码
-				if (this.ruleForm.newPass !== '') {
-					this.$refs.ruleForm.validateField('newPass');
+				// 检验确认新密码
+				if (this.rulePass.checkPass !== '') {
+					this.$refs.rulePass.validateField('checkPass');
 				}
 				callback();
 			}
@@ -312,7 +299,7 @@ export default {
 		let validatePasses = (rule, value, callback) => {
 			if (value === '') {
 				callback(new Error('请输入确认密码'));
-			} else if (value !== this.ruleForm.newPass) {
+			} else if (value !== this.rulePass.newPass) {
 				callback(new Error('两次输入密码不一致!'));
 			} else {
 				callback();
@@ -332,12 +319,14 @@ export default {
 			collectionArtDelList:[],
 			ruleForm: {
 				name: '',
-				pass: '',
-				newPass: '',
-				checkPass:'',
 				birth: '',
 				sex: '',
 				id: ''
+			},
+			rulePass:{
+				pass: '',
+				newPass: '',
+				checkPass:''
 			},
 			// 生日选择：不能大于当前时间
 			pickerOptions: {
@@ -516,6 +505,7 @@ export default {
 					}
 				})
 			}
+			this.showCircle();
 		},
 		/*
 		 * 更新用户信息
@@ -588,15 +578,14 @@ export default {
 				if (valid) {
 					this.$http.post('/api/login', {
 						name: this.ruleForm.name,
-						pass: this.ruleForm.pass
+						pass: this.rulePass.pass
 					}).then((res) => {
-						if (res.data === -1) {
+						if (res.data == -1) {
 							// 当前密码错误: 危险警告
-							this.passErr();
-						} else if(res.data === 1) {
+							this.nowPassErr();
+						} else if(res.data == 1) {
 							// 当前密码正确可以进行修改密码
-							console.log("res.data:", res.data);
-							// this.register(name, pass,sex, birth);
+							this.modifyPass();
 						}
 					})
 				} else {
@@ -604,6 +593,28 @@ export default {
 					return false;
 				}
 			});
+		},
+		modifyPass() {
+			let that = this;
+			that.$http.post('/api/modifyPass', {
+				id: that.ruleForm.id,
+				pass: that.rulePass.newPass
+			}).then((res) => {
+				console.log("res:", res);
+				if (res.status == 200) {
+					that.rulePass.pass = '';
+					that.rulePass.newPass = '';
+					that.rulePass.checkPass = '';
+					that.passSucc();
+					// 修改密码成功：应该清空cookie让其重新登陆
+					window.document.cookie = "username" + '=' + '' + ";path=/;expires=" + 0;
+					setTimeout(function() {
+						that.$router.push('/login')
+					}, 2000)
+				} else {
+					that.newPassErr();
+				}
+			})
 		},
 		handleClick(row) {
 
@@ -735,6 +746,52 @@ export default {
 			});
 			window.open(goCollArtDel.href, '_blank');
 		},
+
+		// 展示图表
+		showCircle() {
+			let myChartCricle  = this.$echarts.init(document.getElementById('myChartCricle'));
+			let option = [];
+			let getData = [];
+			getData.push({
+				value: this.pushArticleData.length,
+				name: '发布的文章'
+			},{
+				value: this.pushDataData.length,
+				name: '发布的资料'
+			},{
+				value: this.collectionArtId.length,
+				name: '收藏的文章'
+			})
+			// console.log(this.pushArticleData.length, this.pushDataData.length, this.collectionArtId.length);
+			option = {
+				title : {
+					text: this.activeUserName+"的图表统计",
+					subtext: '一览众山小',
+					x:'center'
+				},
+				tooltip : {
+					trigger: 'item',
+				},
+				series: [
+					{
+						name: 'cricle',
+						type: 'pie',
+						radius : '44%',
+						center: ['50%', '50%'],
+						data: getData
+					}
+				],
+				itemStyle: {
+					emphasis: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+			}
+			myChartCricle.setOption(option);
+		},
+
 		succOpen() {
 			this.$message({
 				message: '恭喜你更新个人信息成功!',
@@ -750,9 +807,18 @@ export default {
 		errOpen() {
 			this.$message.error('非常抱歉更新信息失败');
 		},
-		passErr() {
+		nowPassErr() {
 			this.$message.error('当前密码输入错误');
-		}
+		},
+		passSucc() {
+			this.$message({
+				message: '恭喜你更新密码成功,正前往登录页面...',
+				type: 'success'
+			})
+		},
+		newPassErr() {
+			this.$message.error('非常抱歉更新密码失败');
+		},
 	},
 }
 </script>

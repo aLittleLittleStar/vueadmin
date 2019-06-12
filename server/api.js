@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-10 09:26:41
+* @Last Modified time: 2019-06-12 09:38:32
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -23,7 +23,7 @@ module.exports = {
 	userLogin(req, res, next) {
 		let sql = sqlMap.user.login;
 		let params = req.body;
-		// console.log("params:", params);
+		console.log("loginInfo:", params);
 		pool.getConnection((err, connection) => {
 			connection.query(sql, [params.name, params.pass], (err, result) => {
 				// 如果错误打印错误原因
@@ -102,6 +102,18 @@ module.exports = {
 					return callback(err);
 				}
 				res.send({status:  200 });
+			})
+		})
+	},
+	modifyPass(req, res, next) {
+		let sql = sqlMap.user.upPass;
+		let params = req.body;
+		pool.getConnection((err, connection) => {
+			connection.query(sql, [ params.pass, params.id], (err, result) => {
+				if (err) {
+					return callback(err);
+				}
+				res.send({status: 200 });
 			})
 		})
 	},

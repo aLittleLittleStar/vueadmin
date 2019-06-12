@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-10 17:37:56
+* @Last Modified time: 2019-06-12 09:26:07
 */
 // sql语句
 let sqlMap = {
@@ -20,7 +20,7 @@ let sqlMap = {
 		// 更新头像
 		upImg: '',
 		/*更新密码*/
-		upPass: '',
+		upPass: 'update userInfo set pass = ? where id = ?',
 	},
 	article: {
 		// 按照时间先后顺序查询: DESC倒序
