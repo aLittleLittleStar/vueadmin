@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-12 09:38:32
+* @Last Modified time: 2019-06-12 20:47:17
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -58,6 +58,18 @@ module.exports = {
 			})
 		})
 	},
+	// 查找用户ID
+	findUserId(req, res, next) {
+		pool.getConnection((err, connection) => {
+			let sql = sqlMap.user.find;
+			let params = req.body;
+			connection.query(sql, params.name, (err, result) => {
+				if (err) throw err;
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
 	// 注册
 	userRegister(req, res, next) {
 		let sql = sqlMap.user.add;
@@ -92,6 +104,23 @@ module.exports = {
 		* 2、用户头像
 		* 3、用户密码
 	*/
+	// 获取该用户名的id与当前用户的id进行判断：
+	// 如果不相同则用户名重复
+	findUserNameId(req, res, next) {
+		let sql = sqlMap.user.findId;
+		let params = req.body;
+
+		pool.getConnection((err, connection) => {
+			connection.query(sql, params.name, (err, result) => {
+				if (err) {
+					return callback(err);
+				}
+				// 返回查找的id
+				res.json(result)
+				connection.release()
+			})
+		})
+	},
 	upBaseInfo(req, res, next) {
 		let sql = sqlMap.user.upBaseInfo;
 		let params = req.body;

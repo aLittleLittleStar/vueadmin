@@ -266,7 +266,7 @@ export default {
 				console.log("res:", res);
 				if (res.status === 200) {
 					that.publishArt = res.data;
-					console.log("res.data:", res.data);
+					// console.log("res.data:", res.data);
 					for(let i = 0; i < res.data.length; i++) {
 						that.publishArt[i].articletime = that.publishArt[i].articletime.slice(0,10)
 					}
@@ -315,8 +315,10 @@ export default {
 				}).then((res) => {
 					console.log("res:", res);
 					if (res.status === 200) {
+						// console.log("res.data[0].articletime：", res.data);
 						res.data[0].articletime = res.data[0].articletime.slice(0,10);
 						that.collectionArtDel = res.data;
+						// that.collectionArtDel[0].articletime = that.collectionArtDel[0].articletime.slice(0,10);
 						console.log("res.collectionArtDel:", res);
 						that.collectionArtDelList.push(that.collectionArtDel);
 						console.log("collectionArtDelList:", that.collectionArtDelList);

@@ -13,7 +13,7 @@
 					target="_blank"
 					:to="{
 						path: '/user-center/',
-						query: {name: this.nowUserName}
+						query: {id: this.nowUserId}
 					}">
 					个人中心
 				</router-link>
@@ -65,7 +65,8 @@
 		data() {
 			return {
 				activeIndex: '/',
-				nowUserName: ''
+				nowUserName: '',
+				nowUserId: ''
 			}
 		},
 		mounted() {
@@ -80,6 +81,12 @@
 				if (document.cookie.length > 0) {
 					this.nowUserName = document.cookie.slice(9);
 				}
+				this.$http.post('/api/userId', {
+					name: this.nowUserName
+				}).then((res) => {
+					console.log("res.id", res);
+					this.nowUserId = res.data[0].id
+				})
 			},
 			unLogin() {
 				window.document.cookie = "username" + '=' + '' + ";path=/;expires=" + -1;

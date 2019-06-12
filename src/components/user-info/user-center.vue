@@ -312,6 +312,8 @@ export default {
 			activeName: '',
 			// 当前未修改信息前的昵称
 			activeUserName: '',
+			activeSex: '',
+			activeBirth: '',
 			// 发布的文章
 			pushArticleData: [],
 			pushDataData: [],
@@ -428,7 +430,9 @@ export default {
 					that.ruleForm.name = that.userInfo.name;
 					that.activeUserName= that.userInfo.name;
 					that.ruleForm.birth = that.userInfo.birth;
+					that.activeBirth = that.userInfo.birth;
 					that.ruleForm.sex = that.userInfo.sex;
+					that.activeSex = that.userInfo.sex;
 					that.ruleForm.id = that.userInfo.id;
 				} else {
 					console.log("err");
@@ -511,6 +515,9 @@ export default {
 		 * 更新用户信息
 		 * 昵称、性别、生日、头像、密码
 		 */
+		/*
+		 * 思路：
+		 */
 		submitBaseInfo(formName) {
 			// 先查询更新的信息：用户名是否被占用
 			// 如果未被占用则更新数据否则进行提示
@@ -520,21 +527,28 @@ export default {
 					//判断是否修改了用户名
 					if (this.ruleForm.name != this.activeUserName) {
 						// 如果修改了：判断修改后的用户名是否已经存在
-						this.$http.post('/api/findUser', {
+						this.$http.post('/api/findUserNameId', {
 							name: this.ruleForm.name
 						}).then((res) => {
-							if (res.data === -1) {
+							console.log("res.data:", res);
+							if (res.data != '') {
 								// 账号已存在:警告
 								this.warnOpen();
-							} else if(res.data === 1) {
-								// 进行注册
-								console.log("res.data:", res.data);
-								// this.upBaseInfo();
+							} else if(res.data == '') {
+								// 进行修改用户信息
+								this.upBaseInfo();
 							}
 						})
-						// 如果没有修改用户名：则直接提交
+						// 如果没有修改用户名：
+						// 则判断性别和出生日期修改了没：如果没修改则不提交
+						// 如果修改了则进行提交
+					} else if (this.activeBirth != this.ruleForm.birth || this.activeSex != this.ruleForm.sex) {
+						this.upBaseInfo();
 					} else {
-						// this.upBaseInfo();
+						this.$message({
+							message: '请修改后进行保存',
+							type: 'warning'
+						})
 					}
 				} else {
 					console.log('error submit!!');
@@ -551,6 +565,7 @@ export default {
 				id: that.ruleForm.id
 			}).then((res) => {
 				if(res.status == 200) {
+					console.log("baseInfo", res);
 					this.succOpen();
 				} else {
 					this.errOpen();
@@ -800,7 +815,7 @@ export default {
 		},
 		warnOpen() {
 			this.$message({
-				message: '非常抱歉该账号已存在!',
+				message: '非常抱歉该昵称已存在!',
 				type: 'warning'
 			})
 		},

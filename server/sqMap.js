@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-12 09:26:07
+* @Last Modified time: 2019-06-12 20:34:54
 */
 // sql语句
 let sqlMap = {
@@ -10,8 +10,9 @@ let sqlMap = {
 	user: {
 		add: 'insert into userInfo(name, pass,sex, birth) values (?, ?, ?, ?)',
 		find: 'select * from userInfo where name = ?',
+		findId: 'select id from userInfo where name = ?',
 		search: 'select * from userInfo',
-		login: 'select * from userInfo where name = ? and pass = ?',
+		login: 'select id from userInfo where name = ? and pass = ?',
 		getInfo: 'select id, name, birth, sex, avator from userInfo where name = ?',
 		// 校验密码
 		// findPass: 'select id from userInfo where pass = ?'

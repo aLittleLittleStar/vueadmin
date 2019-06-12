@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-12 09:30:25
+* @Last Modified time: 2019-06-12 20:47:47
 */
 const express = require('express');
 const router = express.Router();
@@ -26,12 +26,18 @@ router.post('/register', (req, res, next) => {
 router.post('/userHome', (req, res, next) => {
   api.getUserInfo(req, res, next);
 });
+router.post('/userId', (req, res, next) => {
+  api.findUserId(req, res, next);
+});
 /*
 	* 更新用户信息
 	* 1、基本信息：昵称、性别、生日
 	* 2、用户头像
 	* 3、用户密码
 */
+router.post('/findUserNameId', (req, res, next) => {
+	api.findUserNameId(req, res, next);
+});
 router.post('/upBaseInfo', (req, res, next) => {
   api.upBaseInfo(req, res, next);
 });
