@@ -38,8 +38,9 @@
 											<div class="item-center-title">
 												{{item.articletitle}}
 											</div>
-											<div class="item-center-content">
-												{{item.articlebrief}}
+											<div 
+												class="item-center-content"
+												v-html="item.articlebrief">
 											</div>
 												<!-- {{item.articlecontent}} -->
 										</router-link>
@@ -93,8 +94,9 @@
 											<div class="item-center-title">
 												{{item.articletitle}}
 											</div>
-											<div class="item-center-content">
-												{{item.articlebrief}}
+											<div 
+												class="item-center-content"
+												v-html="item.articlebrief">
 											</div>
 										</router-link>
 									</div>

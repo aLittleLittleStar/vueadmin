@@ -43,8 +43,10 @@
 								<div class="article-info-title">
 									{{articleInfo.articletitle}}
 								</div>
-								<div class="article-info-content">
-									{{articleInfo.articlecontent}}
+								<div 
+									class="article-info-content"
+									v-html="articleInfo.articlecontent">
+									<!-- {{articleInfo.articlecontent}} -->
 								</div>
 							</div>
 							<div class="article-info-bottom">

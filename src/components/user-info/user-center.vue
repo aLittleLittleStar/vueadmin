@@ -556,6 +556,7 @@ export default {
 				}
 			});
 		},
+		// 更新用户信息表
 		upBaseInfo() {
 			let that = this;
 			this.$http.post('/api/upBaseInfo', {

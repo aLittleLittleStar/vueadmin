@@ -147,13 +147,6 @@ export default {
 			}
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					// let data = new FormData();
-					// data.append('articleavatar', 'this.nowUserName');
-					// data.append('articletitle', 'this.form.title');
-					// data.append('articlecontent', 'this.form.content');
-					// data.append('articlebrief', 'this.form.contentMin');
-					// console.log("data:", data);
-					// return;
 					// 如果文章标题、简介、内容不为空且格式正确
 					// 把发布者、以及填写的内容提交到后台
 					this.$http.post('/api/publish', {
@@ -162,13 +155,12 @@ export default {
 						articlecontent: this.form.content,
 						articlebrief: this.form.contentMin,
 						ttype: this.form.type,
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						}
 					}).then((res) => {
+						console.log("res:", res);
 						// 返回200表示发布成功
-						if (res.status === 200) {
+						if (res.status == 200) {
 							this.succOpen();
+							this.resetForm(formName);
 						} else {
 							// 发布失败
 							this.errOpen();

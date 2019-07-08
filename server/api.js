@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:52
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-12 20:47:17
+* @Last Modified time: 2019-07-08 08:17:14
 */
 const mysql = require('mysql')
 const dbConfig = require('./db')
@@ -194,7 +194,7 @@ module.exports = {
 			connection.query(sql, [params.articleavatar, params.articletitle, params.articlecontent, params.articlebrief, params.ttype],  (err, result) => {
 				if (err) {
 					res.send({status:  -1 });
-					console.log("err:", err);
+					return;
 				}
 				// 插入文章数据
 				res.send({status:  200 });

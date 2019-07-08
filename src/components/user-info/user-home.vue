@@ -334,4 +334,5 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../../assets/common/stylus/user-home.styl'
+@import '../../assets/common/fonts/iconfont.css'
 </style>
