@@ -83,56 +83,17 @@ export default {
 			},
 			rules: {
 				title: [
-					{
-						required: true,
-						message: '请输入文章标题',
-						trigger: 'blur' 
-					},
-					{
-						min: 2,
-						max: 26,
-						message: '长度在 2 到 26 个字符',
-						trigger: 'blur'
-					}
-				],
+					{required: true,message: '请输入文章标题',trigger: 'blur' },
+					{min: 2,max: 26,message: '长度在 2 到 26 个字符',trigger: 'blur'}],
 				type: [
-					{
-						required: true,
-						message: '请输入文章类别',
-						trigger: 'blur' 
-					},
-					{
-						min: 4,
-						max: 20,
-						message: '长度在 4 到 20 个字符',
-						trigger: 'blur'
-					}
-				],
+					{required: true,message: '请输入文章类别',trigger: 'blur' },
+					{min: 4,max: 20,message: '长度在 4 到 20 个字符',trigger: 'blur'}],
 				contentMin: [
-					{
-						required: true,
-						message: '请输入文章简介',
-						trigger: 'blur' 
-					},
-					{
-						min: 40,
-						max: 200,
-						message: '长度在 40 到 200 个字符',
-						trigger: 'blur'
-					}
-				],
+					{required: true,message: '请输入文章简介',trigger: 'blur' },
+					{min: 40,max: 200,message: '长度在 40 到 200 个字符',trigger: 'blur'}],
 				content: [
-					{
-						required: true,
-						message: '请输入文章内容',
-						trigger: 'blur' 
-					},
-					{
-						min: 200,
-						message: '长度至少需要200个字符',
-						trigger: 'blur'
-					}
-				]
+					{required: true,message: '请输入文章内容',trigger: 'blur' },
+					{min: 200,message: '长度至少需要200个字符',trigger: 'blur'}]
 			}
 		}
 	},
@@ -184,13 +145,10 @@ export default {
 			}
 		},
 		succOpen() {
-			this.$message({
-				message: '发布成功!',
-				type: 'success'
-			})
+			this.$showMessage('success', '发布成功')
 		},
 		errOpen() {
-			this.$message.error('发布失败');
+			this.$showMessage('error', '发布失败')
 		}
 	},
 	components: {

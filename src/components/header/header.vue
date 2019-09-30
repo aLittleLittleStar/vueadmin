@@ -84,7 +84,8 @@
 				this.$http.post('/api/userId', {
 					name: this.nowUserName
 				}).then((res) => {
-					// console.log("res.id", res);
+					console.log("res.id", res);
+					console.log("res.id", res.data[0].id);
 					this.nowUserId = res.data[0].id
 				})
 			},

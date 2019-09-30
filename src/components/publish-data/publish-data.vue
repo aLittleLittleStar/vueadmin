@@ -230,16 +230,13 @@ export default {
 			}
 		},
 		succOpen() {
-			this.$message({
-				message: '发布资源成功，正跳转至资源详情页面',
-				type: 'success'
-			})
+			this.$showMessage('success', '发布资源成功，正跳转至资源详情页面')
 		},
 		errOpen() {
-			this.$message.error('发布资源失败');
+			this.$showMessage('error', '发布资源失败')
 		},
 		warOpen() {
-			this.$message.warning('请正确填写资源信息');
+			this.$showMessage('warning', '请正确填写资源信息')
 		}
 	}
 }

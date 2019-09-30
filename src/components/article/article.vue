@@ -213,7 +213,7 @@ export default {
 		userStar: function() {
 			// 判断登录状态
 			if (this.nowUserName === '') {
-				this.warnStar() //提醒只有登录之后才能点赞
+				this.$showMessage('warning', '提醒只有登录之后才能点赞')
 				return
 			}
 			// 切换点赞颜色
@@ -221,10 +221,10 @@ export default {
 			
 			// 点赞++--
 			if (this.starType) {
-				this.succStar()
+				this.$showMessage('success', '点赞成功')
 				this.starNumber++
 			} else {
-				this.succStarBack()
+				this.$showMessage('success', '取消点赞成功')
 				this.starNumber--
 			}
 			// 发送点赞的数据：如果用户没有点赞过该文章
@@ -285,16 +285,16 @@ export default {
 		// 收藏
 		userCollection: function() {
 			if (this.nowUserName === '') {
-				this.warnColl();
+				this.$showMessage('warning', '请登录之后进行收藏')
 				return;
 			}
 			this.collectionType = !this.collectionType
 
 			if (this.collectionType) {
-				this.succColl()
+				this.$showMessage('success', '收藏成功')
 				this.collectionNumber++
 			} else {
-				this.succCollBack()
+				this.$showMessage('success', '取消收藏成功')
 				this.collectionNumber--
 			}
 
@@ -381,42 +381,6 @@ export default {
 			if (document.cookie.length > 0) {
 				this.nowUserName = document.cookie.slice(9);
 			}
-		},
-		succStar() {
-			this.$message({
-				message: '点赞成功',
-				type: 'success'
-			})
-		},
-		succStarBack() {
-			this.$message({
-				message: '取消点赞成功',
-				type: 'success'
-			})
-		},
-		warnStar() {
-			this.$message({
-				message: '请登录之后进行点赞',
-				type: 'warning'
-			})
-		},
-		succColl() {
-			this.$message({
-				message: '收藏成功',
-				type: 'success'
-			})
-		},
-		succCollBack() {
-			this.$message({
-				message: '取消收藏成功',
-				type: 'success'
-			})
-		},
-		warnColl() {
-			this.$message({
-				message: '请登录之后进行收藏',
-				type: 'warning'
-			})
 		},
 		// 加载loading 动画
 		colesFullScreen() {

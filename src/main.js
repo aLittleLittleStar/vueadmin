@@ -9,8 +9,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 // 引入 echarts
 import echarts from 'echarts'
-
-
+import { showMessage } from './utils/tool.js'
+Vue.prototype.$showMessage = showMessage
 Vue.config.productionTip = false
 // 使用 ElementUI
 Vue.use(ElementUI, echarts)

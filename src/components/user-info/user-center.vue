@@ -20,7 +20,7 @@
 									<el-form-item
 										label="用户昵称"
 										prop="name">
-										<el-input v-model="ruleForm.name">
+										<el-input v-model="ruleForm.name" clearable>
 										</el-input>
 									</el-form-item>
 									<el-form-item 
@@ -64,7 +64,7 @@
 									<el-form-item
 										label="用户昵称"
 										prop="name">
-										<el-input v-model="ruleForm.name"></el-input>
+										<el-input v-model="ruleForm.name" clearable></el-input>
 									</el-form-item>
 									<el-form-item>
 										<el-button 
@@ -88,7 +88,8 @@
 										<el-input
 											type="password"
 											v-model="rulePass.pass"
-											auto-complete="off">
+											auto-complete="off"
+											clearable>
 										</el-input>
 									</el-form-item>
 									<el-form-item
@@ -97,7 +98,8 @@
 										<el-input
 											type="password"
 											v-model="rulePass.newPass"
-											auto-complete="off">
+											auto-complete="off"
+											clearable>
 										</el-input>
 									</el-form-item>
 									<el-form-item
@@ -105,7 +107,8 @@
 										prop="checkPass">
 										<el-input
 											type="password"
-											v-model="rulePass.checkPass">
+											v-model="rulePass.checkPass"
+											clearable>
 										</el-input>
 									</el-form-item>
 									<el-form-item>
@@ -339,74 +342,19 @@ export default {
 			// 规则
 			rules: {
 				name: [
-					{
-						required: true,
-						message: '请输入昵称',
-						trigger: 'blur'
-					},
-					{
-						min: 1,
-						max: 8,
-						message: '昵称长度在 1 到 8 个字符',
-						trigger: 'blur'
-					}
-				],
+					{required: true,message: '请输入昵称',trigger: 'blur'},
+					{min: 1,max: 8,message: '昵称长度在 1 到 8 个字符',trigger: 'blur'}],
 				pass: [
-					{
-						type: 'string',
-						required: true,
-						trigger: 'blur',
-						validator: validatePass
-					},
-					{
-						min: 6,
-						max: 12,
-						message: '密码长度在 6 到 12 个字符',
-						trigger: 'blur'
-					}
-				],
+					{type: 'string',required: true,trigger: 'blur',validator: validatePass},
+					{min: 6,max: 12,message: '密码长度在 6 到 12 个字符',trigger: 'blur'}],
 				newPass: [
-					{
-						type: 'string',
-						required: true,
-						validator: validateNewPass,
-						trigger: 'blur'
-					},
-					{
-						min: 6,
-						max: 12,
-						message: '确认密码长度在 6 到 12 个字符',
-						trigger: 'blur'
-					}
-				],
+					{type: 'string',required: true,validator: validateNewPass,trigger: 'blur'},
+					{min: 6,max: 12,message: '确认密码长度在 6 到 12 个字符',trigger: 'blur'}],
 				checkPass: [
-					{
-						type: 'string',
-						required: true,
-						validator: validatePasses,
-						trigger: 'blur'
-					},
-					{
-						min: 6,
-						max: 12,
-						message: '确认密码长度在 6 到 12 个字符',
-						trigger: 'blur'
-					}
-				],
-				sex: [
-					{
-						required: true,
-						message: '请选择性别',
-						trigger: 'change'
-					}
-				],
-				birth: [
-					{
-						required: true,
-						message: '请选择生日',
-						trigger: 'change'
-					}
-				]
+					{type: 'string',required: true,validator: validatePasses,trigger: 'blur'},
+					{min: 6,max: 12,message: '确认密码长度在 6 到 12 个字符',trigger: 'blur'}],
+				sex: [{required: true,message: '请选择性别',trigger: 'change'}],
+				birth: [{required: true,message: '请选择生日',trigger: 'change'}]
 			}
 		}
 	},
@@ -533,7 +481,7 @@ export default {
 							console.log("res.data:", res);
 							if (res.data != '') {
 								// 账号已存在:警告
-								this.warnOpen();
+								this.$showMessage('warning', '账号已存在')
 							} else if(res.data == '') {
 								// 进行修改用户信息
 								this.upBaseInfo();
@@ -545,10 +493,7 @@ export default {
 					} else if (this.activeBirth != this.ruleForm.birth || this.activeSex != this.ruleForm.sex) {
 						this.upBaseInfo();
 					} else {
-						this.$message({
-							message: '请修改后进行保存',
-							type: 'warning'
-						})
+						this.$showMessage('warning', '请修改后进行保存')
 					}
 				} else {
 					console.log('error submit!!');
@@ -567,9 +512,9 @@ export default {
 			}).then((res) => {
 				if(res.status == 200) {
 					console.log("baseInfo", res);
-					this.succOpen();
+					this.$showMessage('success', '恭喜你更新个人信息成功')
 				} else {
-					this.errOpen();
+					this.$showMessage('error', '非常抱歉更新信息失败')
 				}
 			})
 			window.document.cookie = "username" + '=' + this.ruleForm.name + ";path=/;expires=" + 1;
@@ -598,7 +543,7 @@ export default {
 					}).then((res) => {
 						if (res.data == -1) {
 							// 当前密码错误: 危险警告
-							this.nowPassErr();
+							this.$showMessage('error', '当前密码输入错误')
 						} else if(res.data == 1) {
 							// 当前密码正确可以进行修改密码
 							this.modifyPass();
@@ -621,14 +566,14 @@ export default {
 					that.rulePass.pass = '';
 					that.rulePass.newPass = '';
 					that.rulePass.checkPass = '';
-					that.passSucc();
+					this.$showMessage('success', '恭喜你更新密码成功,正前往登录页面...')
 					// 修改密码成功：应该清空cookie让其重新登陆
 					window.document.cookie = "username" + '=' + '' + ";path=/;expires=" + 0;
 					setTimeout(function() {
 						that.$router.push('/login')
 					}, 2000)
 				} else {
-					that.newPassErr();
+					this.$showMessage('error', '非常抱歉更新密码失败')
 				}
 			})
 		},
@@ -663,17 +608,11 @@ export default {
 					if (res.status === 200) {
 						this.pushArticleData = [];
 						this.getPublishArt();
-						this.$message({
-							type: 'success',
-							message: '删除成功!'
-						})
+						this.$showMessage('success', '删除成功')
 					}
 				})
 			}).catch(() => {
-				this.$message({
-					type: 'info',
-					message: '已取消删除'
-				});
+				this.$showMessage('info', '已取消删除')
 			});
 		},
 		// 删除资料
@@ -693,17 +632,11 @@ export default {
 					if (res.status === 200) {
 						this.pushDataData = [];
 						this.getPublishData();
-						this.$message({
-							type: 'success',
-							message: '删除成功!'
-						})
+						this.$showMessage('success', '删除成功')
 					}
 				})
 			}).catch(() => {
-				this.$message({
-					type: 'info',
-					message: '已取消删除'
-				});
+				this.$showMessage('info', '已取消删除')
 			});
 		},
 		// 取消收藏
@@ -725,17 +658,11 @@ export default {
 						this.collectionArtId = [];
 						this.collectionArtDelList = [];
 						this.getCollectionArtId();
-						this.$message({
-							type: 'success',
-							message: '取消点赞成功!'
-						})
+						this.$showMessage('success', '取消点赞成功')
 					}
 				})
 			}).catch(() => {
-				this.$message({
-					type: 'info',
-					message: '已取消取消收藏'
-				});
+				this.$showMessage('info', '已取消取消收藏')
 			});
 		},
 		/*
@@ -806,35 +733,7 @@ export default {
 				}
 			}
 			myChartCricle.setOption(option);
-		},
-
-		succOpen() {
-			this.$message({
-				message: '恭喜你更新个人信息成功!',
-				type: 'success'
-			})
-		},
-		warnOpen() {
-			this.$message({
-				message: '非常抱歉该昵称已存在!',
-				type: 'warning'
-			})
-		},
-		errOpen() {
-			this.$message.error('非常抱歉更新信息失败');
-		},
-		nowPassErr() {
-			this.$message.error('当前密码输入错误');
-		},
-		passSucc() {
-			this.$message({
-				message: '恭喜你更新密码成功,正前往登录页面...',
-				type: 'success'
-			})
-		},
-		newPassErr() {
-			this.$message.error('非常抱歉更新密码失败');
-		},
+		}
 	},
 }
 </script>

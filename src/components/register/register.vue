@@ -1,192 +1,184 @@
 <template>
-	<el-form
-		:model="ruleForm"
-		:rules="rules"
-		ref="ruleForm">
-		<el-form-item
-			label="用户昵称"
-			prop="name">
-			<el-input v-model="ruleForm.name"></el-input>
-		</el-form-item>
-		<el-form-item
-			label="账号密码"
-			prop="pass">
-			<el-input
-				type="password"
-				v-model="ruleForm.pass"
-				auto-complete="off"></el-input>
-		</el-form-item>
-		<el-form-item
-			label="确认密码"
-			prop="checkPass">
-			<el-input
-				type="password"
-				v-model="ruleForm.checkPass"></el-input>
-		</el-form-item>
-		<el-form-item 
-			label="选择性别"
-			prop="sex">
-			<el-radio-group 
-				v-model="ruleForm.sex">
-				<el-radio label="男"></el-radio>
-				<el-radio label="女"></el-radio>
-			</el-radio-group>
-		</el-form-item>
-		<el-form-item
-			label="出生日期"
-			prop="birth">
-			<el-date-picker
-				v-model="ruleForm.birth"
-				type="date"
-				placeholder="选择日期"
-				:picker-options="pickerOptions"
-				format="yyyy 年 MM 月 dd 日"
-				value-format="yyyy-MM-dd"
-				suffix-icon="el-icon-date">
-			</el-date-picker>
-		</el-form-item>
-		<el-form-item>
-			<el-button 
-				type="primary" 
-				@click="submitForm('ruleForm')">
-					立即注册
-			</el-button>
-		</el-form-item>
-	</el-form>
+  <div class="content">
+    <el-card class="boxCard">
+      <div class="header">
+        <span>注册-XX优化</span>
+      </div>
+      <el-form
+        :model="registerInfo"
+        :rules="registerRules"
+        ref="registerInfo">
+        <el-form-item prop="name">
+          <el-input
+            type="name"
+            v-model="registerInfo.name"
+            auto-complete="off" 
+            prefix-icon="el-icon-user"
+            placeholder="用户昵称"
+            clearable>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="pass">
+          <el-input
+            show-password
+            type="password"
+            v-model="registerInfo.pass"
+            auto-complete="off"
+            prefix-icon="el-icon-lock"
+            placeholder="密码"
+            clearable>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="checkPass">
+          <el-input
+            show-password
+            type="password"
+            v-model="registerInfo.checkPass"
+            auto-complete="off"
+            prefix-icon="el-icon-lock"
+            placeholder="确认密码"
+            clearable>
+          </el-input>
+        </el-form-item>
+        <el-form-item 
+          prop="sex">
+          <el-radio-group 
+            v-model="registerInfo.sex">
+            <el-radio label="男"></el-radio>
+            <el-radio label="女"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item
+          prop="birth">
+          <el-date-picker
+            v-model="registerInfo.birth"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions"
+            format="yyyy 年 MM 月 dd 日"
+            value-format="yyyy-MM-dd"
+            suffix-icon="el-icon-date">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            @click="submitRegister('registerInfo')"
+            class="registerBtn">
+            注册
+          </el-button>
+        </el-form-item>
+        <el-form-item>
+          已有账号  
+          <router-link to="/login">
+            <el-button type="text">
+               登录
+            </el-button>
+          </router-link>
+        </el-form-item>
+      </el-form>
+    </el-card>
+  </div>
 </template>
 
 <script>
 export default {
-	name: 'Register',
-	data() {
-		let validatePass = (rule, value, callback) => {
-			if (value === '') {
-				callback(new Error('请输入密码'));
-			} else {
-				// 检验确认密码
-				if (this.ruleForm.checkPass !== '') {
-					this.$refs.ruleForm.validateField('checkPass');
-				}
-				callback();
-			}
-		};
-		let validatePasses = (rule, value, callback) => {
-			if (value === '') {
-				callback(new Error('请再次输入密码'));
-			} else if (value !== this.ruleForm.pass) {
-				callback(new Error('两次输入密码不一致!'));
-			} else {
-				callback();
-			}
-		};
-		return {
-			ruleForm: {
-				name: '',
-				pass: '',
-				checkPass:'',
-				birth: '',
-				sex: '',
-				// 上传头像
-				imageUrl: ''
-			},
+  name: 'Register',
+  data () {
+    let checkEmail = (rule, value, callback) => {
+      // 验证邮箱格式
+      const nameReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+      console.log('value：', value)
+      if (!value) {
+        return callback(new Error('邮箱不能为空！'))
+      } else if (!nameReg.test(value)) {
+        return callback(new Error('请输入正确的邮箱格式'))
+      }
+      callback()
+    }
+    let validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.registerInfo.checkPass !== '') {
+          this.$refs.registerInfo.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    let validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.registerInfo.pass) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      registerInfo: {
+        name: '',
+        pass: '',
+        checkPass: '',
+        sex: '',
+        birth: ''
+      },
 			// 生日选择：不能大于当前时间
 			pickerOptions: {
 				disabledDate(time) {
 					return time.getTime() > Date.now();
 				}
 			},
-			// 规则
-			rules: {
-				name: [
-					{
-						required: true,
-						message: '请输入昵称',
-						trigger: 'blur'
-					},
-					{
-						min: 1,
-						max: 8,
-						message: '昵称长度在 1 到 8 个字符',
-						trigger: 'blur'
-					}
-				],
-				pass: [
-					{
-						type: 'string',
-						required: true,
-						trigger: 'blur',
-						validator: validatePass
-					},
-					{
-						min: 6,
-						max: 12,
-						message: '密码长度在 6 到 12 个字符',
-						trigger: 'blur'
-					}
-				],
-				checkPass: [
-					{
-						type: 'string',
-						required: true,
-						validator: validatePasses,
-						trigger: 'blur'
-					},
-					{
-						min: 6,
-						max: 12,
-						message: '确认密码长度在 6 到 12 个字符',
-						trigger: 'blur'
-					}
-				],
-				sex: [
-					{
-						required: true,
-						message: '请选择性别',
-						trigger: 'change'
-					}
-				],
-				birth: [
-					{
-						required: true,
-						message: '请选择生日',
-						trigger: 'change'
-					}
-				]
-			}
-		}
-	},
-	methods: {
+      registerRules: {
+        name: [{ required: true, message: '请输入昵称', trigger: 'blur' },
+               {min: 1, max: 8, message: '昵称长度在 1 到 8 个字符',trigger: 'blur'}],
+        pass: [
+          { required: true, validator: validatePass, trigger: 'blur' },
+          { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'blur' }
+        ],
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: 'blur' },
+          { min: 6, max: 12, message: '确认密码长度在 6 到 12 个字符', trigger: 'blur' }
+        ],
+        sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+        birth: [{ required: true, message: '请选择生日', trigger: 'change' }]
+      }
+    }
+  },
+  methods: {
 		// 注册
-		submitForm: function(formName) {
-			this.$refs[formName].validate((valid) => {
+		submitRegister: function(formName) {
+			let that = this
+			that.$refs[formName].validate((valid) => {
 				// 如果数据都进行了填写
 				if (valid) {
-					let name = this.ruleForm.name;
-					let pass = this.ruleForm.pass;
-					let checkPass = this.ruleForm.checkPass;
-					let sex = this.ruleForm.sex;
-					let birth = this.ruleForm.birth;
+					let name = that.registerInfo.name;
+					let pass = that.registerInfo.pass;
+					let checkPass = that.registerInfo.checkPass;
+					let sex = that.registerInfo.sex;
+					let birth = that.registerInfo.birth;
 					console.log("info:", name, pass, checkPass, birth);
-					this.$http.post('/api/findUser', {
+					that.$http.post('/api/findUser', {
 						name: name
 					}).then((res) => {
 						if (res.data === -1) {
 							// 账号已存在:警告
-							this.warnOpen();
+							that.$showMessage('warning', '非常抱歉该账号已存在')
 						} else if(res.data === 1) {
 							// 进行注册
 							console.log("res.data:", res.data);
-							this.register(name, pass,sex, birth);
+							that.register(name, pass,sex, birth);
 						}
 					})
 				} else {
-					console.log('error submit!!');
+					that.$showMessage('error', '请正确填写信息')
 					return false;
 				}
 			});
 		},
 		register: function(name, pass,sex, birth) {
-			this.$http.post('/api/register', {
+			let that = this
+			that.$http.post('/api/register', {
 				name: name,
 				pass: pass,
 				sex: sex,
@@ -194,7 +186,7 @@ export default {
 			}).then((res) => {
 				if (res.status === 200) {
 					// 注册成功：success
-					this.succOpen();
+					that.$showMessage('success', '恭喜你，注册成功，正跳转至登录页面')
 					// 进行跳转到登录页面
 					setInterval(function() {
 						that.$router.push({
@@ -207,78 +199,39 @@ export default {
 					}, 2000)
 				} else {
 					// 注册失败： error
-					this.errOpen();
+					that.$showMessage('error', '非常抱歉注册失败')
 				}
-			})
-		},
-		/*handleAvatarSuccess(res, file) {
-			this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
-			console.log("this.ruleForm.imageUrl:", this.ruleForm.imageUrl);
-		},
-		beforeAvatarUpload(file) {
-			const isJPG = file.type === 'image/jpeg';
-			const isLt4M = file.size / 1024 / 1024 < 4;
-			
-			if (!isJPG) {
-				this.$message.error('上传头像图片只能是 JPG 格式!');
-			}
-			if (!isLt4M) {
-				this.$message.error('上传头像图片大小不能超过 4MB!');
-			}
-			return isJPG && isLt4M;
-		},*/
-		succOpen() {
-			this.$message({
-				message: '恭喜你注册成功!',
-				type: 'success'
-			})
-		},
-		warnOpen() {
-			this.$message({
-				message: '非常抱歉该账号已存在!',
-				type: 'warning'
-			})
-		},
-		errOpen() {
-			this.$message.error('非常抱歉注册失败');
+			}).catch(err => {
+          that.$showMessage('error', err)
+      })
 		}
-	}
+  }
 }
 </script>
 
+<style lang="stylus" scoped>
+.content
+  width: 100%
+  height: 100%
+  text-align: center
+  margin: 0 auto
+  .boxCard
+    margin: 0 auto
+    max-width: 480px
+    margin-top: 40px
+    .header
+      font-size: 22px
+      padding: 20px 0 40px
+      letter-spacing: 1px
+      font-weight: bold
+    .el-form
+      padding: 0 30px
 
-<style scoped lang="stylus">
-.el-form
-	width: 100%
-	padding: 10rem 1rem
-	display: flex
-	flex-direction: column
-	align-items: center
-	.el-form-item
-		display: flex
-		&:last-child
-			display: flex
-			justify-content: center
-		.el-input
-			width: 20rem
 
-.el-radio-group {
-	width: 20rem
-}
+.el-input
+  width: 100%
 
-.avatar-uploader {
-	width: 20rem
-}
-.avatar {
-	width: 100%
-	height: 100%
-}
-.avatar-uploader .el-upload .el-icon-plus {
-	height: 100%
-	width: 100%
-	line-height: 100%
-	text-align: center
-}
-
+.el-button--primary
+  width: 100%
 
 </style>

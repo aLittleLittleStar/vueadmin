@@ -138,7 +138,7 @@ export default {
 			})
 		},
 		errOpen() {
-			this.$message.error('请先输入关键字进行搜索');
+			this.$showMessage('warning', '请先输入关键字进行搜索')
 		},
 		// 加载loading 动画
 		colesFullScreen() {
