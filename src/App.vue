@@ -32,11 +32,12 @@ html
     width: 100%
     height: 100%
     margin: 0
+    background: #eee
 
 #app
 	width: 100%
 	height: 100%
-	display: flex
+	display: flex 
 
 
 // 修改发布文章页面的样式

@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:51:22
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-13 09:52:19
+* @Last Modified time: 2020-03-20 19:42:01
 */
 // sql语句
 let sqlMap = {
@@ -26,12 +26,12 @@ let sqlMap = {
 	article: {
 		// 按照时间先后顺序查询: DESC倒序
 		search: 'select * from article order by articletime DESC limit ?, 10',
+		// 按照点赞数进行查询：DESC倒序
+		searchFir: 'select * from article order by articlelikes DESC limit ?, 10',
 		// 查询数据的总长度
 		searchLength: 'select count(*) from article',
 		// 查询一篇文章
 		searchOne: 'select * from article as a inner join userInfo as b on a.articleavatar = b.name where a.articleid = ?',
-		// 按照浏览量进行查找
-		searchFir: 'select * from article order by articlelook DESC limit ?, 10',
 		// 添加文章
 		add: 'insert into article(articleavatar, articletitle, articlecontent, articlebrief, ttype) values (? , ?, ?, ?, ?)',
 		// 更新文章点赞数量：

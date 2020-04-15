@@ -12,8 +12,8 @@
 						<el-form-item>
 							<el-input 
 								v-model="form.name"
-								placeholder="以最快的速度获取想要的资源"
-								@keyup.native.enter="searchList"
+								placeholder="请输入资源名称"
+								@keydown.enter.native="keyCodeSearch"
 								clearable>
 								<el-button 
 									slot="append" 
@@ -123,6 +123,13 @@ export default {
 					console.log("error");
 				}
 			})
+		},
+		// 回车键进行搜索
+		keyCodeSearch(e) {
+			let keyCode = window.event ? e.keyCode : e.which;
+			if(keyCode === 13) {
+				this.searchList()
+			}
 		},
 		searchList: function() {
 			let value = this.form.name;

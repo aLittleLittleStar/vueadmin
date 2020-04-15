@@ -2,7 +2,7 @@
 * @Author: Star
 * @Date:   2019-05-25 14:52:01
 * @Last Modified by:   Star
-* @Last Modified time: 2019-06-12 20:47:47
+* @Last Modified time: 2020-03-19 11:15:04
 */
 const express = require('express');
 const router = express.Router();
@@ -161,8 +161,6 @@ router.get('/searchData', (req, res, next) => {
 router.post('/getSearchInfo', (req, res, next) => {
   api.getSearchInfo(req, res, next);
 });
-
-
 
 
 

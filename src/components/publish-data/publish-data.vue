@@ -67,10 +67,12 @@
 							prop="dataIntroduce">
 							<el-input 
 								type="textarea"
-								:autosize="{ minRows: 2}"
+								:autosize="{ minRows: 4}"
 								placeholder="请输入网站介绍"
 								v-model="dataInfo.dataIntroduce"
-								clearable></el-input>
+								show-word-limit
+								maxlength="140"
+								></el-input>
 						</el-form-item>
 						<el-form-item 
 							label="网站分类"
@@ -252,6 +254,7 @@ export default {
 		font-weight: 600
 		letter-spacing: 2px
 	.el-main
+		background: #fff
 		.el-row
 			.el-col
 				display: flex

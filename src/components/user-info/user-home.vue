@@ -30,16 +30,18 @@
 							<div 
 								class="right"
 								v-if="isMe">
-								<router-link
-									target="_blank"
-									:to="{
-										path: '/user-center/',
-										query: {name: userHome.name}
-									}">
-									<div class="seting">
-										<span class="iconfont icon-shezhi"></span>
-									</div>
-								</router-link>
+								<el-tooltip effect="dark" content="设置中心" placement="top-start">
+									<router-link
+										target="_blank"
+										:to="{
+											path: '/user-center/',
+											query: {name: userHome.name}
+										}">
+										<div class="seting">
+											<span class="iconfont icon-shezhi"></span>
+										</div>
+									</router-link>
+								</el-tooltip>
 							</div>
 						</div>
 						<div class="avatar-bottom">
@@ -58,12 +60,13 @@
 					<div class="publish-info">
 						<!-- 发布的文章 -->
 						<div 
-							class="item" 
+							class="item"
 							v-show="activeTab=='first'"
 							v-for="(item, idx) in publishArt"
 							:key="idx">
 							<div class="item-top">
-								<div class="item-top-say">专栏</div>
+								<div class="item-top-say" v-if="item.articlecollection > 6">推荐</div>
+								<div class="item-top-say" style="color: #f70" v-else>专栏</div>
 								<div class="item-top-user">{{item.articleavatar}}</div>
 								<div class="item-top-time">{{item.articletime}}</div>
 								<div class="item-top-type">{{item.ttype}}</div>
@@ -94,9 +97,9 @@
 									<div class="item-bottom-collection">
 										收藏 {{item.articlecollection}}
 									</div>
-									<div class="item-bottom-look">
+<!-- 									<div class="item-bottom-look">
 										浏览量 {{item.articlelook}}
-									</div>
+									</div> -->
 								</router-link>
 							</div>
 						</div>
@@ -106,7 +109,7 @@
 							v-show="activeTab=='second'"
 							v-for="item in publishData"
 							:key="item.id">
-							<el-card shadow="hover">
+							<el-card shadow="hover" v-if="publishData">
 								<div class="card-top">
 									<div class="card-title">
 										发布者：
@@ -147,6 +150,7 @@
 									</div>
 								</div>
 							</el-card>
+							<div class="" v-else>空空如也</div>
 						</div>
 						<!-- 收藏的文章 -->
 						<div 
@@ -195,9 +199,9 @@
 									<div class="item-bottom-collection">
 										收藏 {{item[0].articlecollection}}
 									</div>
-									<div class="item-bottom-look">
+<!-- 									<div class="item-bottom-look">
 										浏览量 {{item[0].articlelook}}
-									</div>
+									</div> -->
 								</router-link>
 							</div>
 						</div>

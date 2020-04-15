@@ -2,7 +2,7 @@
   <div class="content">
     <el-card class="boxCard">
       <div class="header">
-        <span>注册-XX优化</span>
+        <span>注册-技术论坛</span>
       </div>
       <el-form
         :model="registerInfo"
@@ -53,7 +53,7 @@
           <el-date-picker
             v-model="registerInfo.birth"
             type="date"
-            placeholder="选择日期"
+            placeholder="出生日期"
             :picker-options="pickerOptions"
             format="yyyy 年 MM 月 dd 日"
             value-format="yyyy-MM-dd"

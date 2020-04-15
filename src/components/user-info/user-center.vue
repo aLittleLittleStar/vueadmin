@@ -20,7 +20,7 @@
 									<el-form-item
 										label="用户昵称"
 										prop="name">
-										<el-input v-model="ruleForm.name" clearable>
+										<el-input v-model="ruleForm.name" clearable disabled>
 										</el-input>
 									</el-form-item>
 									<el-form-item 
@@ -55,7 +55,7 @@
 								</el-form>
 							</div>
 						</el-collapse-item>
-						<el-collapse-item title="头像" name="2">
+<!-- 						<el-collapse-item title="头像" name="2">
 							<div class="user-info-del">
 								<el-form
 									:model="ruleForm"
@@ -75,7 +75,7 @@
 									</el-form-item>
 								</el-form>
 							</div>
-						</el-collapse-item>
+						</el-collapse-item> -->
 						<el-collapse-item title="密码" name="3">
 							<div class="user-info-del">
 								<el-form
@@ -254,14 +254,14 @@
 								</el-table>
 							</div>
 						</el-collapse-item>
-						<el-collapse-item title="图表统计" name="7">
+<!-- 						<el-collapse-item title="图表统计" name="7">
 							<div class="user-info-del set-circle">
 								<div 
 									id="myChartCricle" 
 									style="width:20rem;height:20rem;">
 								</div>
 							</div>
-						</el-collapse-item>
+						</el-collapse-item> -->
 					</el-collapse>
 				</el-container>
 			</el-col>
@@ -341,9 +341,9 @@ export default {
 			},
 			// 规则
 			rules: {
-				name: [
-					{required: true,message: '请输入昵称',trigger: 'blur'},
-					{min: 1,max: 8,message: '昵称长度在 1 到 8 个字符',trigger: 'blur'}],
+				// name: [
+				// 	{required: true,message: '请输入昵称',trigger: 'blur'},
+				// 	{min: 1,max: 8,message: '昵称长度在 1 到 8 个字符',trigger: 'blur'}],
 				pass: [
 					{type: 'string',required: true,trigger: 'blur',validator: validatePass},
 					{min: 6,max: 12,message: '密码长度在 6 到 12 个字符',trigger: 'blur'}],

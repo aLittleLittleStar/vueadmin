@@ -2,7 +2,7 @@
   <div class="content">
     <el-card class="boxCard">
       <div class="header">
-        <span>登录-系统</span>
+        <span>登录-技术论坛</span>
       </div>
       <el-form
         :model="loginInfo"

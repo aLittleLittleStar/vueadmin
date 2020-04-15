@@ -17,7 +17,8 @@
 									:key="idx"
 									v-show="activeName === 'first'">
 									<div class="item-top">
-										<div class="item-top-say">专栏</div>
+										<div class="item-top-say" v-if="item.articlecollection > 6">推荐</div>
+										<div class="item-top-say" style="color: #f70" v-else>专栏</div>
 										<router-link
 											target="_blank"
 											:to="{
@@ -31,7 +32,8 @@
 									</div>
 									<div
 										class="item-center">
-										<router-link 
+										<router-link
+											target="_blank"
 											:to="{
 													path: '/article/'+item.articleid,
 													query: {id: item.articleid}}">
@@ -57,9 +59,9 @@
 											<div class="item-bottom-collection">
 												收藏 {{item.articlecollection}}
 											</div>
-											<div class="item-bottom-look">
+<!-- 											<div class="item-bottom-look">
 												浏览量 {{item.articlelook}}
-											</div>
+											</div> -->
 										</router-link>
 									</div>
 								</div>
@@ -73,7 +75,8 @@
 									:key="idx"
 									v-show="activeName === 'secnod'">
 									<div class="item-top">
-										<div class="item-top-say">专栏</div>
+										<div class="item-top-say" v-if="item.articlecollection > 6">推荐</div>
+										<div class="item-top-say" style="color: #f70" v-else>专栏</div>
 										<router-link
 											target="_blank"
 											:to="{
@@ -88,6 +91,7 @@
 									<div 
 										class="item-center">
 										<router-link
+											target="_blank"
 											:to="{
 												path: '/article/'+item.articleid,
 												query: {id: item.articleid}}">
@@ -112,9 +116,9 @@
 											<div class="item-bottom-collection">
 												收藏 {{item.articlecollection}}
 											</div>
-											<div class="item-bottom-look">
+<!-- 											<div class="item-bottom-look">
 												浏览量 {{item.articlelook}}
-											</div>
+											</div> -->
 										</router-link>
 									</div>
 								</div>
@@ -211,9 +215,6 @@ export default {
 						let Len = num / 10;
 						// 向下取整
 						Len = Math.floor(Len);
-						console.log("num:", num);
-						console.log("Remain:", Remain);
-						console.log("Len:", Len);
 						// 当除以10余数大于0时：页数的长度
 						if (Remain >= 0) {
 							Len += 1;

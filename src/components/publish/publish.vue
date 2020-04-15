@@ -24,7 +24,8 @@
 						<el-form-item
 							prop="type"
 							label="文章类别">
-							<el-input 
+							<el-input
+								type="text"
 								v-model="form.type"
 								clearable>
 								</el-input>
@@ -33,8 +34,11 @@
 							prop="contentMin"
 							label="文章简介">
 							<el-input 
+								type="textarea"
 								v-model="form.contentMin"
-								clearable>
+								clearable
+								show-word-limit
+								maxlength="200">
 							</el-input>
 						</el-form-item>
 						<el-form-item
@@ -159,8 +163,6 @@ export default {
 
 
 <style lang="stylus" scoped>
-
-
 .el-container
 	.el-header
 		text-align: center
@@ -170,11 +172,10 @@ export default {
 		font-weight: 600
 		letter-spacing: 2px
 	.el-main
+		background: #fff
 		.el-row
 			display: flex
 			justify-content: center  //左右居中
-
-
 
 .el-form-item
 	text-align: center
