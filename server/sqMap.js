@@ -36,6 +36,10 @@ let sqlMap = {
     // 添加文章
     add:
       "insert into article(articleavatar, articletitle, articlecontent, articlebrief, ttype) values (? , ?, ?, ?, ?)",
+    addCommit:
+      "insert into articlecommit(commituser, commitarticeid, value) values (? , ?, ?)",
+    findCommit:
+      "select * from articlecommit where commitarticeid = ?  order by committime DESC",
     // 更新文章点赞数量：
     upStar: "update article set articlelikes = ? where articleid = ?",
     // 更新文章的收藏数量

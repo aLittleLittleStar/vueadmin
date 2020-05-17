@@ -559,4 +559,44 @@ module.exports = {
       });
     });
   },
+
+  // 添加评论
+  addCommit(req, res, next) {
+    pool.getConnection((err, connection) => {
+      let sql = sqlMap.article.addCommit;
+      let params = req.body;
+      console.log("params addData:", params);
+      connection.query(
+        sql,
+        [params.commituser, params.commitarticeid, params.value],
+        (err, result) => {
+          if (err) {
+            res.send({ status: -1 });
+            console.log("err:", err);
+          }
+          console.log("result:", result);
+          res.send({ status: 200 });
+        }
+      );
+    });
+  },
+  // 查找评论
+  findCommit(req, res, next) {
+    pool.getConnection((err, connection) => {
+      let sql = sqlMap.article.findCommit;
+      let params = req.body;
+      // let commitarticeid = ["%" + params.commitarticeid + "%"];
+      console.log("params", params);
+      // console.log("commitarticeid", commitarticeid);
+      connection.query(sql, [params.commitarticeid], (err, result) => {
+        if (err) {
+          res.send({ status: -1 });
+          console.log("err:", err);
+        }
+        console.log("result:", result);
+        res.json(result);
+        connection.release();
+      });
+    });
+  },
 };
